@@ -2,54 +2,12 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>React Test1</title>
-    <script src="build/react.js"></script>
-    <script src="build/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
-    <script type="text/javascript">
-        var app={
-            list: [],
-            register: function(o){
-                console.log("register "+o);
-                this.list.push(o);
-            },
-            update: function(data){
-                var i;
-                for( i in this.list){
-                    this.list[i].setState(data);
-                }
-            }
-        };
-    </script>
-    <script src="app/app.jsx" type="text/babel"></script>
+    <title>React Test2</title>
 </head>
 <body>
 <p>Hello</p>
 <div id="mount-point"></div>
 
-<script type="text/babel">
-    ReactDOM.render(
-            <div>
-            <app.MyComponent prefix="1"/>
-            <p>Some Static Text</p>
-            <app.MyComponent prefix="2"/>
-            <p>Some More Static Text</p>
-            <app.MyComponent prefix="3"/>
-            <app.MyComponent prefix="4"/>
-            <app.MyComponent prefix="5"/>
-            <app.MyComponent prefix="6"/>
-            <app.MyComponent prefix="7"/>
-            </div>,
-            document.getElementById('mount-point')
-    );
-
-</script>
-<script type="text/javascript">
-    console.log("ReactMain");
-    setInterval(function(){
-        console.log("timer");
-        app.update({text:new Date().toISOString()});
-    },1000);
-</script>
+<script src="build/bundle.js"></script>
 </body>
 </html>

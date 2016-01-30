@@ -1,8 +1,10 @@
 /**
  * Created by andreas on 28.01.16.
  */
+import Store from './Store.jsx';
+import React from 'react';
 
-app.MyComponent = React.createClass({
+module.exports = React.createClass({
     render: function(){
         return (
             <h1>{this.props.prefix}:{this.state.text}</h1>
@@ -16,7 +18,7 @@ app.MyComponent = React.createClass({
     },
     componentDidMount: function(x){
         console.log("mounted "+this);
-        app.register(this);
+        Store.register(this);
     }
 
 });
