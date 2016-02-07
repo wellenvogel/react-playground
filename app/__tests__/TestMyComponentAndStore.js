@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
 const MyComponent = require('../MyComponent.jsx');
-const Store = require('../Store.jsx');
+const Store = require('../stores/Store.jsx');
 console.log("Test starts: ");
 describe('MyComponent and Store', () => {
 

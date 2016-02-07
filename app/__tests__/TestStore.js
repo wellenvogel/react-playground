@@ -2,7 +2,7 @@
 jest.dontMock('../Store.jsx');
 
 
-const Store = require('../Store.jsx');
+const Store = require('../stores/Store.jsx');
 console.log("Test starts: ");
 var testObject={
     data: new Object(),
