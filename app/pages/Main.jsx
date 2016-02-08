@@ -17,11 +17,13 @@ var ChartList=React.createClass({
     render: function(){
         var items=this.props.items;
         return(
-           <ul className="table-view">
-               {items.map(function(result){
-                   return <ListItem cname={result.name} key={result.name}></ListItem>
-               })}
-           </ul>
+            <div className="content">
+                <ul className="table-view">
+                    {items.map(function (result) {
+                        return <ListItem cname={result.name} key={result.name}></ListItem>
+                    })}
+                </ul>
+            </div>
         )
     }
 });
@@ -52,12 +54,53 @@ var ButtonList=React.createClass({
 
    }
 });
+
+var Status=React.createClass({
+    render: function(){
+        return(
+            <div className='avn_status_widget'>
+                <img className='avn_status_image_small' src={'images/'+this.props.status.status+'Bubble40.png'}/>
+                {this.props.name}&nbsp;<span className="">{this.props.status.text}</span>
+            </div>
+
+        );
+    }
+});
+
+var BottomPanel=React.createClass({
+   render: function(){
+       return (
+           <div className="avn_left_bottom">
+               <div className="pull-left">
+                   <Status status={this.props.status.ais} name="Ais"></Status>
+                   <Status status={this.props.status.nmea} name="Nmea"></Status>
+               </div>
+               <div className="pull-right">
+                   <a href="http://www.wellenvogel.de">AvNav React0.1</a>
+               </div>
+           </div>
+       );
+   }
+});
 module.exports=React.createClass({
     render: function(){
+        var status={
+            ais:{
+                status: "Green",
+                text: "25 targets"
+            },
+            nmea:{
+                status:"Yellow",
+                text: "7/3"
+            }
+        };
         return (
             <div className="avn_page">
                 <div className="avn_left_panel">
-                    <ChartList items={this.state.list}></ChartList>
+                    <div className="avn_main">
+                        <ChartList items={this.state.list}></ChartList>
+                    </div>
+                    <BottomPanel status={status}></BottomPanel>
                 </div>
                 <ButtonList buttons={this.buttons()}></ButtonList>
             </div>
@@ -68,16 +111,22 @@ module.exports=React.createClass({
         return [
             {
                 icon: "stats-bars2",
-                onClick: self.onClick
+                onClick: self._onStatsClick
+            },
+            {
+                icon: "cog",
+                onClick: self._onSettingsClick
             }
         ];
     },
     getInitialState: function(){
+        var list=[];
+        var i=0;
+        for (;i< 20;i++){
+            list.push({name:"Chart"+i});
+        }
         return {
-            list:[
-                {name: "Chart1"},
-                {name: "Chart2"}
-            ]
+            list:list
         }
     },
     change: function(o) {
@@ -86,9 +135,13 @@ module.exports=React.createClass({
     componentDidMount: function(x){
         Store.register(this);
     },
-    onClick: function(e){
+    _onStatsClick: function(e){
+        console.log("clicked "+e.target);
+    },
+    _onSettingsClick: function(e){
         console.log("clicked "+e.target);
     }
+
 
 });
 

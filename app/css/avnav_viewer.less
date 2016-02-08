@@ -49,6 +49,9 @@
 .icon-stats-bars2 {
   .ourIcon("\e99d");
 }
+.icon-cog {
+  .ourIcon("\e994");
+}
 
   .nightColors() when ( @nightModePercent <100% ){
     background-color: #000;
@@ -119,16 +122,29 @@
 
 
   /*
-      3. map
+      3. left main
   */
 
   .avn_main{
+    .avn_panel();
     top: @topPanelHeight;
     bottom: @bottomPanelHeight;
     left: 0px;
     right: 0px;
 
   }
+
+/*
+  4. bottom line  - see .avn_leftBottom
+*/
+.avn_left_bottom{
+  .avn_panel();
+  bottom: 0px;
+  height: @bottomPanelHeight;
+  left: 0px;
+  right: 0px;
+  background-color: fade(rgb(222, 226, 207),@nightModePercent);
+}
 
   .avn_right_panel{
     .avn_panel();
@@ -139,6 +155,30 @@
     background-color: fade(#6D6D6D,@nightModePercent);
   }
 
+  .avn_status_widget{
+    background-color: fade(#C7C7AE,@nightModePercent);
+    /* padding-left: 8px; */
+    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    margin-left: 2px;
+    border-radius: 3px;
+    font-size: (@bottomPanelHeight / 4.5);
+    line-height: (@bottomPanelHeight / 4);
+  }
+
+.avn_status_image{
+  width: 24px;
+  height: 24px;
+}
+
+.avn_status_image_small{
+  width: ( @bottomPanelHeight / 2.5 );
+  height: ( @bottomPanelHeight / 2.5 );
+  vertical-align: middle;
+}
   /*-------------------------------------------------------------
      buttons
   -------------------------------------------------------------*/

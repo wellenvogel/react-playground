@@ -27,7 +27,7 @@ module.exports = {
             },
 
             {
-                test: /\.png$|\.svg$|\.ttf$|\.woff$|\.eot$/,
+                test: /fonts\/.*\.png$|fonts\/.*\.svg$|fonts\/.*\.ttf$|fonts\/.*\.woff$|fonts\/.*\.eot$/,
                 loader: 'file-loader',
                 //we are not really able to tell the file loader to copy files correctly
                 //so we let it copy them and afterwards copy them again by the copy plugin
@@ -52,7 +52,16 @@ module.exports = {
             {
                 from: __dirname+"/app/css/fonts",
                 to: "fonts"
+            },
+            {
+                from: __dirname+"/../avnav/viewer/images",
+                to: "images"
+            },
+            {
+                from: "index.html",
+                to: "index.html"
             }
+
         ])
     ],
     devtool:"source-map"
