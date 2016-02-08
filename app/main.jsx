@@ -1,9 +1,8 @@
 import React from 'react';
-import MyComponent from './MyComponent.jsx';
 import Store from "./stores/Store.jsx";
 import App from "./App.jsx";
 
-
+require("./css/avnav_viewer.less");
 
 React.render(
     <App/>,

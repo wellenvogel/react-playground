@@ -1,4 +1,5 @@
 import React from 'react';
+require("./css/avnav_viewer.less");
 import MainPage from "./pages/Main.jsx";
 
 

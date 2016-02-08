@@ -1,0 +1,1450 @@
+
+//variables will be overwritten by properties!
+@topPanelHeight:00px;
+@bottomPanelHeight:50px;
+@aisPanelWidth:90px;
+@routeInfoPanelWidth:90px; //the real with is the max of this and the AIS panel width
+@routeDisplayWidth: 90px;
+@buttonSize: 60px;
+@centerDisplayHeight: 30px;
+@settingsFontSize: 16px;
+@routeInfoFontBase: min(max(@aisPanelWidth,@routeInfoPanelWidth),120px);
+
+@nightMode: 100px;     //fade factor for night mode - if < 100 assume night mode
+                      //we set this in px as this is the only value the js code can set
+                      //later we convert this to %
+@nightModeValue: unit(@nightMode / 100px);
+@nightModePercent: percentage(@nightModeValue);
+
+@aisNormalColor: #EBEB55;
+@aisNearestColor: #70F3AF; //rgb(112, 243, 175);
+@aisWarningColor: #FA584A; //rgb(250, 88, 74);
+
+@routeApproachingColor: #FA584A;
+
+@nightColor: rgba(252, 11, 11, 0.49);
+
+@routeColor: rgba(222, 226, 207, 1);
+
+//hide some content
+
+.hidemedia(@min:0px,@max:9999px){
+  @media (min-width:@min) and (max-width: @max){
+    display:none;
+  }
+}
+
+//have the border inside
+.border-box{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+/*-------------------------------------------------------------
+   buttons
+-------------------------------------------------------------*/
+
+.avn_button_base(@bWitdh:@buttonSize,@bSize:@buttonSize){
+  width: @bWitdh;
+  height: @bSize;
+  margin: 3px 3px 3px 3px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #D3D3D3;
+  background: fade(#E6E6E6,@nightModePercent);
+  //position: relative;
+  cursor: pointer;
+  outline: none;
+
+}
+button.avn_button{
+  .avn_button_base;
+}
+
+.avn_button:active{
+  border: 2px solid #6B6B6B;
+}
+
+button.avn_toggleButton{
+  .avn_button_base;
+}
+
+button.avn_buttonActive{
+  border: 4px solid #1DB81D !important;
+}
+
+button.avn_buttonActiveError{
+  border: 4px solid #EC420C !important;
+}
+
+button.avn_buttonInactive{
+  border: 4px solid fade(#E6E6E6,@nightModePercent) !important;
+}
+
+
+.avn_button_icon_base(@icon,@innerWidth: ( @buttonSize * 30 / 60 ),@size: @buttonSize ){
+  .avn_button_base(@size,@size);
+  background-image: url(@icon);
+  background-position: center center;
+  background-size: @innerWidth @innerWidth;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+.avn_button_icon_base_toggle(@icon,@innerWidth: ( @buttonSize * 30 / 60 ) ){
+  .avn_button_icon_base(@icon,@innerWidth);
+}
+
+/*-------------------------------------------------------------
+   general settings
+-------------------------------------------------------------*/
+
+
+
+input when (@nightModePercent<100%) {
+  background-color: #646463;
+}
+
+input {
+  border: 2px inset;
+}
+html,body {
+	.nightColors();
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 0.8em;
+}
+
+.avn_panel{
+	position: absolute;
+	overflow: hidden;
+}
+
+
+
+#leftTop .avn_label {
+	color: white;
+}
+.avn_left_bottom {
+	
+	background-color: fade(rgb(222, 226, 207),@nightModePercent);
+	text-align: center;
+}
+
+.avn_map{
+	border: 1px solid black;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+	
+}
+
+/*
+  for a page that consumes the left side and is scrollable
+  */
+.avn_scrollable_page{
+  overflow: auto;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+}
+
+
+
+.avn_inner{
+	display: inline-block;
+}
+.avn_label{
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.avi_mainpage_leftbottominner .avn_label{
+	-webkit-margin-before: 0.5em;
+}
+.avn_position{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.avn_hidden{
+	display:none;
+}
+
+
+.avn_position{
+
+border-color: black;
+border-style: solid;
+border-width: 1px;
+background-color: white;
+font-size: ( @topPanelHeight - 2 );
+}
+
+.avn_left_bottom .avn_position{
+font-size: ( @bottomPanelHeight - 2 );
+}
+
+/*-------------------------------------------------------------
+   bottom display
+-------------------------------------------------------------*/
+@bottomSmallFont: (( @bottomPanelHeight / 2 ) - 10 );
+@bottomBigFont: ( @bottomPanelHeight  - 8 );
+.bottomhideverysmall{
+  .hidemedia(0px,@bottomPanelHeight*14.5);
+}
+.bottomhidesmall{
+  .hidemedia(0px,@bottomPanelHeight*18.8);
+}
+
+.bottomMargins {
+	margin-left: ( @bottomPanelHeight / 12 );
+	margin-right: ( @bottomPanelHeight / 12 );
+}
+.bottomInnerMargins{
+	margin-left: ( @bottomPanelHeight / 12 );
+}
+#leftBottomInner{
+	left:0;
+	right: 0;
+
+}
+#leftBottomInnerCenter{
+  display:  inline-block; //this sets the text align center as inherited
+  width: 100%;
+}
+
+#leftBottomMarker{
+  width: 50%;
+}
+#leftBottomMarkerBearing{
+    .border-box();
+    height: @bottomPanelHeight;
+    border: 1px solid;
+    border-radius: 3px;
+    padding-right: 4px;
+}
+#leftBottomPositionCourse{
+  .border-box();
+  border: 1px solid;
+  border-radius: 3px;
+  height: @bottomPanelHeight;
+}
+#leftBottomMarker #leftBottomMarkerPos{
+	width: ( @bottomSmallFont * 7 );
+	.bottomMargins;
+	margin-top: ( @bottomSmallFont / 4 );
+	.bottomhidesmall();
+
+}
+#leftBottomMarker #leftBottomMarkerEta{
+	margin-top: ( @bottomSmallFont / 4 );
+    margin-right: (@bottomSmallFont / 4);
+    .bottomhideverysmall();
+}
+
+#markerLabel {
+  max-width: 7em;
+}
+#leftBottomMarker #leftBottomMarkerBearing{
+	//width: ( @bottomBigFont * 5.8 );
+}
+#leftBottomMarker #markerPosition{
+	font-size: @bottomSmallFont;
+}
+#leftBottomMarker #eta{
+	font-size: @bottomSmallFont;
+}
+#leftBottomMarker #bearing{
+	font-size: @bottomBigFont;
+	.bottomInnerMargins;
+}
+#leftBottomMarker #distance{
+	font-size: @bottomBigFont;
+	.bottomInnerMargins;
+    border-left: 1px dotted;
+    padding-left: ( @bottomPanelHeight / 12 );
+}
+
+#leftBottomPosition{
+  width: 50%;
+}
+
+#leftBottomPosition #leftBottomPositionPos{
+	width: ( @bottomSmallFont * 7 );
+	margin-top: ( @bottomSmallFont / 4 );
+    .bottomhidesmall();
+}
+#leftBottomPosition #leftBottomPositionStatus{
+	width: ( @bottomSmallFont * 6 );
+	margin-top: ( @bottomSmallFont / 4 );
+    .bottomhideverysmall();
+    padding-left: ( @bottomSmallFont / 4);
+}
+#leftBottomPosition #leftBottomPositionCourse{
+	//width: ( @bottomBigFont * 5 );
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#leftBottomPosition #boatPosition{
+	font-size: @bottomSmallFont;
+
+}
+#leftBottomPosition #boatLocalTime{
+	font-size: @bottomSmallFont;
+
+}
+#leftBottomPosition #boatCourse{
+	font-size: @bottomBigFont;
+	.bottomInnerMargins;
+}
+#leftBottomPosition #boatSpeed{
+	font-size: @bottomBigFont;
+	.bottomInnerMargins;
+    border-left: 1px dotted;
+    padding-left: ( @bottomPanelHeight / 12 );
+}
+
+
+/*-------------------------------------------------------------
+   measure display (center)
+-------------------------------------------------------------*/
+
+.avn_center {
+	padding-left: 3px;
+	font-size: ( @centerDisplayHeight * 0.8 );
+}
+
+#centerInner {
+	text-align: center;
+}
+
+/*-------------------------------------------------------------
+  nav page
+  ------------------------------------------------------------*/
+
+#avi_second_buttons_navpage{
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: (@buttonSize + 10);
+  padding-left: 3px;
+  background-color: rgba(109, 109, 109, 0.5);
+}
+#avi_route_info_navpage{
+  top: 0px;
+  left:0px;
+  bottom: 0px;
+  width: max( @aisPanelWidth , @routeInfoPanelWidth );
+  background-color: fade(lightgrey,@nightModePercent);
+  z-index: 200;
+}
+#avi_route_info_navpage when (@nightModePercent<100%) {
+  background-color: rgba(31, 30, 30, 1);
+}
+
+#avi_route_info_navpage_inner {
+  //margin-left: 3px;
+  //margin-right: 3px;
+}
+/* we edit the current route */
+.avn_activeRoute{
+  border: 3px solid fade(#fa584a,@nightModePercent);
+}
+.avn_otherRoute{
+  border: 3px solid fade(#1DB81D,@nightModePercent)
+}
+/*-------------------------------------------------------------
+   route info
+-------------------------------------------------------------*/
+.avn_route_base(@factor: 8){
+    font-size: ( @routeInfoFontBase / @factor );
+    padding-left: 3px;
+}
+.avn_route_label{
+    .avn_route_base(10);
+}
+.avn_routeInfo{
+  .avn_route_base(8);
+  border-bottom: 1px solid black;
+  margin-bottom: 5px;
+}
+#avi_route_info_heading{
+    .avn_route_base(7);
+}
+#avi_route_info_name{
+    .avn_route_base(10);
+    margin-top: 5px;
+
+}
+#avi_route_info_list{
+    @width: max(@aisPanelWidth,@routeInfoPanelWidth);
+    font-size: ( @routeInfoFontBase / 9);
+    left:0;
+    right:0;
+    bottom: 0;
+    position: absolute;
+    top: (@routeInfoFontBase * 1.8);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#avi_route_info_list input{
+    @width: max(@aisPanelWidth,@routeInfoPanelWidth);
+    width: (@width - 10px);
+    font-size: ( @routeInfoFontBase / 8);
+}
+
+.avn_route_info_point{
+  border-bottom: 1px solid black;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 1px;
+}
+.avn_route_info_active_point{
+    background-color: @routeApproachingColor !important;
+}
+.avn_route_info_active_point when (@nightModePercent<100%){
+  background-color: #7A5957 !important;
+}
+
+//no margin at last display of route head
+#avi_route_info_eta{
+  margin-bottom: 0px;
+}
+
+
+#avi_waypoint_popup{
+    top: 0px;
+    left: 0px;
+    right:( @buttonSize + 10px );
+    z-index: 120; /* must be above route everything... */
+    background-color: @routeColor;
+    font-size: ( @routeInfoFontBase / 8);
+    border: 1px solid;
+    border-radius: 2px;
+    .nightColors();
+}
+
+#avi_waypoint_popup input{
+  font-size: ( @routeInfoFontBase / 5);
+  width: 100%;
+}
+
+
+/* make the waypoint popup 2 rows on small screen width */
+@wpsmall: ( 5.583 * @routeInfoFontBase );
+#avi_waypoint_popup_left{
+    float: left;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+  @media (min-width: @wpsmall) {
+    width: 100%;
+    box-sizing: border-box;
+    margin-right: -( 3 * @buttonSize + 47);
+    padding-right: ( 3 * @buttonSize + 47);
+  }
+  @media (max-width: ( @wpsmall - 1) ) {
+    padding-right: 10px;
+  }
+
+}
+#avi_waypoint_popup_left .avn_route_point_ll{
+  float: left;
+  margin-right: 1em;
+}
+#avi_waypoint_popup_right{
+    float:right;
+    margin-top: 5px;
+    margin-right: 8px;
+}
+
+/*-------------------------------------------------------------
+   route display
+-------------------------------------------------------------*/
+#avi_route_display{
+    left: 0px;
+    bottom: 0px;
+    background-color: rgba(222, 226, 207, 0.92);
+    z-index: 90;
+    border-radius: 2px;
+    border: 1px solid;
+    padding-right: 8px;
+    padding-left: 3px;
+    .nightColors();
+}
+
+
+#avi_route_display_remain{
+  font-size: (@routeInfoPanelWidth / 5.5);
+  border-bottom: 0;
+  margin-top: 2px;
+  padding-right: 3px;
+}
+#avi_route_display_eta{
+  font-size: (@routeInfoPanelWidth / 5.5);
+  border-bottom: 0;
+}
+#avi_route_display_next{
+  font-size: (@routeInfoPanelWidth / 5.5);
+  padding-left: 3px;
+  padding-bottom: 3px;
+  border-top: 1px solid;
+}
+
+.avn_route_display_approach{
+    background-color: @routeApproachingColor !important;
+
+}
+.avn_route_display_approach when (@nightModePercent<100%) {
+  background-color: #702620 !important
+}
+button#avb_ZoomIn {
+  .avn_button_icon_base('images/Plus40.png');
+}
+button#avb_ZoomOut {
+  .avn_button_icon_base('images/Minus40.png');
+}
+button#avb_LockPos  {
+  .avn_button_icon_base_toggle('images/Sail-Boat-40.png');
+}
+
+button#avb_LockMarker {
+  .avn_button_icon_base_toggle('images/Marker1.png');
+}
+
+button#avb_CourseUp {
+  .avn_button_icon_base_toggle('images/nadel-2.png',( @buttonSize * 45 /60 ));
+}
+button#avb_ShowRoutePanel {
+  .avn_button_icon_base('images/RoutingButton40.png',( @buttonSize * 45 /60 ));
+}
+
+
+button#avb_CancelNav {
+  .avn_button_icon_base('images/Cancel40.png');
+
+}
+
+/*- nav page routing panel --*/
+button#avb_NavAdd {
+  .avn_button_icon_base('images/wpplus40.png',( @buttonSize * 45 /60 ));
+}
+button#avb_NavDelete {
+  .avn_button_icon_base('images/wpminus40.png',( @buttonSize * 45 /60 ));
+}
+button#avb_NavToCenter {
+  .avn_button_icon_base('images/wpcenter60.png',( @buttonSize * 45 /60 ));
+}
+button#avb_NavGoto {
+  .avn_button_icon_base('images/wpgoto60.png',( @buttonSize * 45 /60 ));
+}
+button#avb_NavInvert {
+  .avn_button_icon_base('images/InvertRoute60.png',( @buttonSize * 45 /60 ));
+}
+button#avb_NavDeleteAll {
+  .avn_button_icon_base('images/trash32.png');
+}
+
+button#avb_NavWp {
+  .avn_hidden();
+  .avn_button_icon_base('images/YellowBubble40.png');
+}
+
+button#avb_WpDone{
+  .avn_button_icon_base('images/check32.png');
+}
+button#avb_WpPrevious{
+  .avn_button_icon_base('images/arrowleft32.png');
+}
+button#avb_WpNext{
+  .avn_button_icon_base('images/arrowright32.png');
+}
+
+
+
+
+/* some settings for pages that have lists */
+
+.avm_listpage {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: ( @routeInfoFontBase / 8);
+  background-color: white;
+  .nightColors();
+}
+
+.avm_listhead{
+  margin-top: 10px;
+  border-bottom: 1px solid;
+}
+
+.avm_listcontainer {
+  position: absolute;
+  left: 5px;
+  right: 0;
+  overflow: auto;
+  bottom: 0;
+}
+.avm_list_entry{
+  height: ( @buttonSize *0.8 + 5px);
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid;
+  padding-top: 5px;
+}
+/*-------------------------------------------------------------
+   routes page
+-------------------------------------------------------------*/
+#avi_route_page_inner{
+  .avm_listpage();
+}
+#avi_routes_headline{
+  font-size: 1.2em;
+  font-weight: bold;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+#avi_route_current label{
+  font-size: 0.8em;
+}
+#avi_route_name{
+  width: 95%;
+  font-size: ( @routeInfoFontBase / 5);
+}
+#avi_route_listhead{
+  margin-top: 10px;
+  border-bottom: 1px solid;
+}
+
+#avi_route_listcontainer {
+  .avm_listcontainer();
+  top: 8.3em;
+
+}
+.avn_route_list_entry{
+  .avm_list_entry();
+}
+.avn_route_listinfo{
+  padding-left: 1.5em;
+  float: left;
+}
+.avn_route_listdate{
+  float: left;
+
+}
+
+.avn_route_btnDelete{
+  position: absolute;
+  left: 3px;
+  top: 0;
+}
+
+
+@listrasimagesize: 20px;
+.avn_route_listrasimage{
+  width: @listrasimagesize;
+  height: @listrasimagesize;
+  position: absolute;
+  top: (( @buttonSize - @listrasimagesize ) / 2 );
+  right: 8px;
+  background-image: url('images/plug32.png');
+  background-size: contain;
+}
+
+.avn_route_liststatimage{
+  width: @listrasimagesize;
+  height: @listrasimagesize;
+  background-size: contain;
+  position: absolute;
+  top: (( @buttonSize - @listrasimagesize ) / 2 );
+  right: ( @listrasimagesize + 12);
+}
+
+
+
+.avn_route_list_row{
+  margin-left: (@buttonSize + 10px);
+  margin-right: (2 * @listrasimagesize + 20px);
+}
+
+.avn_route_current{
+  background-image: url('images/GreenBubble40.png');
+}
+.avn_route_active{
+  background-image: url('images/RedBubble40.png');
+}
+
+button#avb_RoutePageOk{
+  .avn_button_icon_base('images/check32.png');
+}
+button#avb_RoutePageCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_RoutePageDownload{
+  .avn_button_icon_base('images/download32.png');
+}
+button#avb_RoutePageUpload{
+  .avn_button_icon_base('images/upload32.png');
+}
+button#avb_RoutePageDelete{
+  .avn_button_icon_base('images/trash32.png');
+}
+button#avb_RoutePageRoutes{
+  .avn_button_icon_base('images/RoutingButton40.png');
+}
+button#avb_RoutePageCharts{
+  .avn_button_icon_base_toggle('images/Chart60.png');
+}
+button#avb_RoutePageTracks{
+  .avn_button_icon_base_toggle('images/TrackButton60.png');
+}
+.avn_route_btnDelete{
+  .avn_button_icon_base('images/trash32.png',null,(@buttonSize *0.8));
+}
+.avn_route_btnLoad{
+  .avn_button_icon_base('images/check32.png',null,(@buttonSize *0.8));
+}
+
+
+
+/*-------------------------------------------------------------
+   download/upload page
+-------------------------------------------------------------*/
+#avi_download_page_inner{
+  .avm_listpage();
+}
+
+#avi_download_page__headline{
+  font-size: 1.2em;
+  font-weight: bold;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+#avi_download_page_listhead{
+  .avm_listhead();
+}
+
+#avi_download_page_listcontainer {
+  .avm_listcontainer();
+  top: 3em;
+}
+.avn_download_list_entry{
+  .avm_list_entry();
+}
+.avn_download_listinfo{
+  padding-left: 1.5em;
+  float: left;
+}
+.avn_download_listdate{
+  float: left;
+
+}
+
+.avn_download_btnDelete{
+  position: absolute;
+  left: 3px;
+  top: 0;
+}
+
+.avn_download_btnDownload{
+  position: absolute;
+  right: 3px;
+  top: 0;
+}
+
+.avn_download_list_row{
+  margin-left: (@buttonSize + 10px);
+  margin-right: (@buttonSize + 10px);
+}
+
+#avi_download_progress{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: (@buttonSize + 20px);
+  background-color: lightgrey;
+  .nightColors();
+}
+
+#avi_download_page_inner.avn_downloadpage_progress_visible{
+  bottom:(@buttonSize + 20px);
+}
+
+
+
+#avi_download_progress_display {
+  position: absolute;
+  left: 20px;
+  right: (@buttonSize + 30px);
+  bottom: 15px;
+  top:  ( @routeInfoFontBase / 10 + 5px);
+  box-sizing: border-box;
+  border: 1px solid;
+}
+
+#avi_download_progress_info{
+  font-size: ( @routeInfoFontBase / 10);
+  position: absolute;
+  left:0px;
+  right: 0px;
+  text-align: center;
+}
+#avb_DownloadPageUploadCancel {
+  position: absolute;
+  right: 15px;
+  top: 7px;
+}
+.avn_progress_bar_done{
+  height: 100%;
+  background-color: blue;
+  width: 20%;
+}
+
+.avn_progress_bar_done when (@nightModePercent < 100){
+  background-color: @nightColor;
+}
+
+button#avb_DownloadPageCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_DownloadPageUpload{
+  .avn_button_icon_base('images/upload32.png');
+}
+
+button#avb_DownloadPageRoutes{
+  .avn_button_icon_base('images/RoutingButton40.png');
+}
+button#avb_DownloadPageCharts{
+  .avn_button_icon_base_toggle('images/Chart60.png');
+}
+button#avb_DownloadPageTracks{
+  .avn_button_icon_base_toggle('images/TrackButton60.png');
+}
+.avn_download_btnDelete{
+  .avn_button_icon_base('images/trash32.png',null,(@buttonSize *0.8) );
+}
+.avn_download_btnDownload{
+  .avn_button_icon_base('images/download32.png',null,(@buttonSize *0.8) );
+}
+
+button#avb_DownloadPageUploadCancel{
+  .avn_button_icon_base('images/Cancel40.png',null,(@buttonSize * 0.8) );
+}
+
+
+
+/*-------------------------------------------------------------
+   AIS display
+-------------------------------------------------------------*/
+.avn_ais_infotable{
+	//display: table;
+	margin-left: 3px;
+	margin-right: 3px;
+	line-height: 22px;
+	font-size: 20px;
+}
+.avn_ais{
+	//display: table-row;
+		
+}
+.avn_aisparam{
+	//display: table-cell;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+	padding-top: 2px;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	
+}
+.avn_ais_info_first{
+	background-color: fade(@aisNearestColor,@nightModePercent * 1.5) !important;
+}
+.avn_ais_info_normal{
+  background-color: fade(@aisNormalColor,@nightModePercent * 1.5) !important;
+}
+.avn_ais_selected{
+	background-color: fade(rgb(202, 213, 190),@nightModePercent * 1.5);
+}
+
+.avn_ais_warning{
+	background-color: fade(@aisWarningColor,@nightModePercent * 1.5);
+}
+.avn_ais_info_warning{
+	background-color: fade(@aisWarningColor,@nightModePercent * 1.5) !important;
+}
+
+#avi_ais_page_inner{
+
+}
+
+/* AIS info box */
+#aisInfoInner{
+	margin-top: 2px;
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+.avn_ais_base(@factor: 5) {
+	font-size: ( @aisPanelWidth / @factor );
+	margin-bottom: 5px;
+	border-bottom: 1px solid black;
+	padding-left: 3px;
+}
+
+.avn_ais_data {
+	.avn_ais_base(5);
+}
+.avn_ais_name {
+	.avn_ais_base(8);
+}
+.avn_ais_mmsi {
+	.avn_ais_base(7);
+}
+.avn_ais_front {
+	.avn_ais_base(3);
+}
+#aisInfoHeadline{
+	font-size: ( @aisPanelWidth / 3 );
+	padding-left: 3px;
+}
+
+.avn_ais_headline_elem{
+  position: relative;
+  top:0;
+  background-color: white;
+  .nightColors();
+}
+
+button#avb_AisCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_AisNearest {
+  .avn_button_icon_base('images/Ais-Up-40.png');
+}
+
+
+/*-------------------------------------------------------------
+   status page
+-------------------------------------------------------------*/
+.avn_status{
+	border-top: 1px solid #000;
+	margin-left: 10px;
+	margin-top: 5px;
+	line-height: 20px;
+}
+.avn_child_status{
+	margin-left: 20px;
+	margin-top: 3px;
+}
+.avn_child_status img{
+	width: 20px;
+	height: 20px;
+}
+.avn_status_name{
+	padding-left: 3px;
+}
+.avn_status_info{
+	padding-left: 3px;
+}
+
+#avi_status_page_inner{
+  padding-left: 8px;
+}
+
+
+
+button#avb_StatusCancel {
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_StatusUpdate {
+  .avn_button_icon_base('images/exchange32.png');
+}
+
+button#avb_StatusAndroid{
+  .avn_button_icon_base('images/Android_Robot_100.png');
+}
+
+
+
+/*-------------------------------------------------------------
+   gps page
+-------------------------------------------------------------*/
+#avi_gps_page_inner{
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+}
+#avi_gps_page_left{
+  .border-box();
+  float:left;
+  width: 50%;
+  height: 100%;
+  border-right: 1px solid;
+
+}
+#avi_gps_page_right{
+  float:left;
+  width: 50%;
+  height: 100%;
+}
+
+#avi_gps_page_upper{
+  .border-box();
+  border: 1px solid;
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+.avn_gpsp_field_label{
+  padding-left: 8px;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  background-color: fade(#E2DFDF,@nightModePercent);
+}
+.avn_gpsp_value{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.avn_gpsp_unit{
+  padding-left: 4px;
+}
+#avi_gpsp_route_dist{
+  .border-box();
+  width: 50%;
+  height: 100%;
+  float: left;
+  border-right: 1px solid;
+}
+#avi_gpsp_route_eta{
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+//some hack to get the grad display a bit up
+.avn_gpsp_cunit{
+  top: -1.7em;
+  position: relative;
+}
+
+#avi_gpsp_xte{
+  width: 100%;
+}
+#avi_gpsp_ais{
+  overflow: hidden;
+}
+#avi_gpsp_ais_status {
+  float: left;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: grey;
+  margin-top: -15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  top: 15%;
+  position: relative;
+}
+#avi_gpsp_aisframe{
+  height: 100%;
+}
+#avi_gpsp_position{
+  display: block;
+}
+
+button#avb_GpsCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+
+/*-------------------------------------------------------------------------------
+    settings page
+  -------------------------------------------------------------------------------
+*/
+
+#avi_settings_page_inner{
+  padding-left: 8px;
+}
+
+.avn_setting{
+  float: left;
+  font-size: @settingsFontSize;
+  padding-left: ( @settingsFontSize * 10 / 16);
+  padding-right: ( @settingsFontSize * 10 / 16);
+  padding-bottom: 6px;
+}
+.avn_settings_group{
+  background-color: #6D6D6D;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+  color: #FFF;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.avn_clear{
+  clear: both;
+}
+
+.avn_settings_line{
+  line-height: ( @settingsFontSize * 3 / 2 );
+  margin-bottom: 8px;
+}
+
+.avn_settings_line input[type="checkbox"]{
+  height: ( @settingsFontSize * 2 );
+  width: ( @settingsFontSize * 2 );
+  margin-left: ( @settingsFontSize );
+  margin-right: 5px;
+}
+
+.avn_slider{
+  float:left;
+  width:400px;
+  height:@settingsFontSize;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.avn_slider_label{
+  float:left;
+  width: ( @settingsFontSize * 12 );
+  margin-top: 10px;
+}
+
+.avn_slider_out{
+  float:left;
+  width: ( @settingsFontSize * 8 );
+  margin-top: 10px;
+}
+.avn_rangeslider__handle {
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  //top: -5px;
+}
+.avn_rangeslider__handle:after {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.13)), color-stop(100%, rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+  background-image: -o-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+.avn_rangeslider__fill {
+  background: #298FC9;
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 100%;
+  -webkit-box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 20px;
+}
+
+.avn_color{
+  float:left;
+  width:150px;
+  height:@settingsFontSize;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+}
+
+.avn_color_label{
+  float:left;
+  width: ( @settingsFontSize * 12 );
+  margin-top: 10px;
+}
+.avn_color_out{
+  float:left;
+  width: ( @settingsFontSize * 8 );
+  margin-top: 10px;
+}
+
+.avn_settings_reset{
+  .avn_button_base(30px,30px);
+  .avn_button_icon_base('images/trash32.png',20px);
+  margin-top: 5px;
+  margin-left: 20px;
+  float:left;
+}
+.avn_settings_reset:active{
+  border: 2px solid #6B6B6B;
+}
+
+button#avb_SettingsCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_SettingsOK {
+  .avn_button_icon_base('images/check32.png');
+}
+
+button#avb_SettingsDefaults{
+  .avn_button_icon_base('images/trash32.png');
+}
+
+button#avb_SettingsAndroid{
+  .avn_button_icon_base('images/Android_Robot_100.png');
+}
+/*-------------------------------------------------------------------------------
+    main page
+  -------------------------------------------------------------------------------
+*/
+
+.avn_mainpage_select_item {
+	cursor: pointer;
+	float: left;
+	margin: 20px 20px 20px 20px;
+	padding: 10px 10px 10px 10px;
+	background-color: fade(grey,@nightModePercent);
+	color: white;
+	width: 60px;
+    height: 100px;
+	text-align: center;
+	border-radius: 8px;
+}
+.avn_mainpage_select_item when (@nightModePercent <100%) {
+  color: @nightColor;
+}
+.avn_mainpage_select_item img{
+    .nightOPacity();
+	margin-bottom: 10px;
+	border-radius: 8px;
+}
+
+
+#avi_mainpage_inner_content {
+	width: 100%;
+	height: 100%;
+}
+
+#avi_mainpage_link{
+  font-size: ( @bottomPanelHeight / 4 );
+  text-align: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-right: 1em;
+  z-index: 0;
+  white-space: nowrap;
+  .hidemedia(0px, ( @bottomPanelHeight * 16 ))
+}
+#avi_mainpage_status {
+  font-size: ( @bottomPanelHeight / 4 );
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-bottom: ( @bottomPanelHeight / 20 );
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: left;
+  background-color: fade(rgb(222, 226, 207),@nightModePercent);
+  z-index: 10;
+  white-space: nowrap;
+}
+#avi_mainpage_selections {
+	display: inline-block;
+}
+
+
+
+button#avb_ShowStatus {
+  .avn_button_icon_base('images/bargraph32.png');
+}
+button#avb_ShowSettings {
+  .avn_button_icon_base('images/spanner32.png');
+}
+button#avb_ShowHelp {
+  .avn_button_icon_base('images/Question.png');
+  .avn_hidden();
+}
+
+button#avb_Connected {
+  .avn_button_icon_base_toggle('images/plug32.png');
+}
+
+button#avb_Night {
+  .avn_button_icon_base_toggle('images/Night60.png');
+}
+button#avb_ShowDownload {
+  .avn_button_icon_base('images/download32.png');
+}
+button#avb_MainCancel{
+  .avn_button_icon_base('images/Cancel40.png');
+}
+button#avb_MainAndroid{
+  .avn_button_icon_base('images/Android_Robot_100.png');
+}
+
+/*------------------------------------------------------------------------------- 
+	element positioning
+  -------------------------------------------------------------------------------
+	1. left panel */
+.avn_left_panel{
+    .avn_panel();
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: (@buttonSize + 10 );      
+	overflow: hidden;
+}
+  
+/*
+    2. left top
+*/
+
+.avn_left_top{
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	height: @topPanelHeight;
+    background-color: #1602FC;
+    text-align: center;
+}
+.avn_top_content{
+	float: left;
+	line-height: ( @topPanelHeight - 2 );
+}
+
+
+/*
+	3. map
+*/
+
+.avn_main{
+	top: @topPanelHeight;
+	bottom: @bottomPanelHeight;
+	left: 0px;
+	right: 0px;
+	
+}
+    
+  
+/*
+	4. bottom line  - see .avn_leftBottom
+*/
+.avn_left_bottom{
+	
+   	bottom: 0px;
+	height: @bottomPanelHeight;
+	left: 0px;
+	right: 0px;
+}
+
+/*
+        5. additional panels
+	   correcting the .avn_main position is done by javascript
+*/
+
+#aisInfo{
+	bottom: 0px;
+	top: 0px;
+	left:	0px;
+	width:	@aisPanelWidth;
+	background-color: @aisNormalColor;
+}
+#aisInfo when (@nightModePercent<100%){
+    color: fade(white,@nightModePercent * 1.5);
+}
+
+#centerDisplay{
+	bottom: @bottomPanelHeight;
+	height: @centerDisplayHeight;
+	left:	0;
+	right:	0;
+	background-color: rgb(228, 228, 180);
+    z-index: 100;
+}
+#centerDisplay when (@nightModePercent <100%) {
+    background-color: rgba(100, 100, 99, 1);
+}
+ 
+.avn_float_left{
+	float: left;
+}
+.avn_float_right{
+	float: right;
+}
+
+/*
+	5. right panel
+*/
+
+.avn_right_panel{
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: ( @buttonSize + 10 );
+    background-color: fade(#6D6D6D,@nightModePercent);
+}
+
+.avn_status_image{
+	width: 24px;
+	height: 24px;
+}
+
+.avn_status_image_small{
+  width: ( @bottomPanelHeight / 2.5 );
+  height: ( @bottomPanelHeight / 2.5 );
+  vertical-align: middle;
+}
+

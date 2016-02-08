@@ -1,0 +1,197 @@
+
+//variables will be overwritten by properties!
+@topPanelHeight:00px;
+@bottomPanelHeight:50px;
+@aisPanelWidth:90px;
+@routeInfoPanelWidth:90px; //the real with is the max of this and the AIS panel width
+@routeDisplayWidth: 90px;
+@buttonSize: 60px;
+@centerDisplayHeight: 30px;
+@settingsFontSize: 16px;
+@routeInfoFontBase: min(max(@aisPanelWidth,@routeInfoPanelWidth),120px);
+
+@nightMode: 100px;     //fade factor for night mode - if < 100 assume night mode
+                      //we set this in px as this is the only value the js code can set
+                      //later we convert this to %
+@nightModeValue: unit(@nightMode / 100px);
+@nightModePercent: percentage(@nightModeValue);
+
+@aisNormalColor: #EBEB55;
+@aisNearestColor: #70F3AF; //rgb(112, 243, 175);
+@aisWarningColor: #FA584A; //rgb(250, 88, 74);
+
+@routeApproachingColor: #FA584A;
+
+@nightColor: rgba(252, 11, 11, 0.49);
+
+@routeColor: rgba(222, 226, 207, 1);
+
+
+
+/**
+ icon font
+ **/
+@font-face {
+  font-family: Moonicons;
+  font-style: normal;
+  font-weight: normal;
+
+  src: url("./fonts/icomoon.eot");
+  src: url("./fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("./fonts/icomoon.woff") format("woff"), url("./fonts/icomoon.ttf") format("truetype"), url("./fonts/icomoon.svg#svgFontName") format("svg");
+}
+
+.ourIcon(@content){
+  font-family: Moonicons;
+  &:before {
+    content: @content;
+  }
+}
+.icon-stats-bars2 {
+  .ourIcon("\e99d");
+}
+
+  .nightColors() when ( @nightModePercent <100% ){
+    background-color: #000;
+    color: @nightColor;
+  }
+  .nightOPacity() when(@nightModePercent <100%){
+    opacity: @nightModeValue;
+  }
+
+
+
+  //hide some content
+
+  .hidemedia(@min:0px,@max:9999px){
+    @media (min-width:@min) and (max-width: @max){
+      display:none;
+    }
+  }
+
+  //have the border inside
+  .border-box{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+
+  html,body {
+    .nightColors();
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 0.8em;
+  }
+
+  .avn_panel{
+    position: absolute;
+    overflow: hidden;
+  }
+  /*	1. left panel */
+  .avn_left_panel{
+    .avn_panel();
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: (@buttonSize + 10 );
+    overflow: hidden;
+  }
+
+  /*
+      2. left top
+  */
+
+  .avn_left_top{
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    height: @topPanelHeight;
+    background-color: #1602FC;
+    text-align: center;
+  }
+  .avn_top_content{
+    float: left;
+    line-height: ( @topPanelHeight - 2 );
+  }
+
+
+  /*
+      3. map
+  */
+
+  .avn_main{
+    top: @topPanelHeight;
+    bottom: @bottomPanelHeight;
+    left: 0px;
+    right: 0px;
+
+  }
+
+  .avn_right_panel{
+    .avn_panel();
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: ( @buttonSize + 10 );
+    background-color: fade(#6D6D6D,@nightModePercent);
+  }
+
+  /*-------------------------------------------------------------
+     buttons
+  -------------------------------------------------------------*/
+
+  .avn_button_base(@bWitdh:@buttonSize,@bSize:@buttonSize){
+    width: @bWitdh;
+    height: @bSize;
+    margin: 3px 3px 3px 3px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #D3D3D3;
+    background: fade(#E6E6E6,@nightModePercent);
+    //position: relative;
+    cursor: pointer;
+    outline: none;
+
+  }
+  button.avn_button{
+    .avn_button_base;
+  }
+
+  .avn_button:active{
+    border: 2px solid #6B6B6B;
+  }
+
+  button.avn_toggleButton{
+    .avn_button_base;
+  }
+
+  button.avn_buttonActive{
+    border: 4px solid #1DB81D !important;
+  }
+
+  button.avn_buttonActiveError{
+    border: 4px solid #EC420C !important;
+  }
+
+  button.avn_buttonInactive{
+    border: 4px solid fade(#E6E6E6,@nightModePercent) !important;
+  }
+
+
+  .avn_button_icon_base(@icon,@innerWidth: ( @buttonSize * 30 / 60 ),@size: @buttonSize ){
+    .avn_button_base(@size,@size);
+    background-image: url(@icon);
+    background-position: center center;
+    background-size: @innerWidth @innerWidth;
+    background-repeat: no-repeat;
+    text-decoration: none;
+  }
+
+  .avn_button_icon_base_toggle(@icon,@innerWidth: ( @buttonSize * 30 / 60 ) ){
+    .avn_button_icon_base(@icon,@innerWidth);
+  }
