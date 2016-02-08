@@ -3,14 +3,26 @@
  */
 var Store=require('../stores/Store.jsx');
 var React=require('react');
-var Button=require('../components/Button.jsx');
+var ButtonList=require("../components/ButtonList.jsx");
 
 var ListItem=React.createClass({
    render: function(){
+       var imageUrl="images/Chart60.png";
+       if (this.props.data.icon){
+           imageUrl=this.props.icon
+       }
        return (
-           <li className="table-view-cell">{this.props.cname}</li>
+           <li className="table-view-cell media navigate-right" onClick={this._onChartSelected}>
+               <img className="media-object pull-left avn_mainpage_image" src={imageUrl}></img>
+               <div className="media-body">
+                   {this.props.data.name}
+               </div>
+           </li>
        );
-   }
+   },
+    _onChartSelected: function(){
+        console.log("selected chart "+this.props.data.name);
+    }
 });
 
 var ChartList=React.createClass({
@@ -20,7 +32,7 @@ var ChartList=React.createClass({
             <div className="content">
                 <ul className="table-view">
                     {items.map(function (result) {
-                        return <ListItem cname={result.name} key={result.name}></ListItem>
+                        return <ListItem data={result} key={result.name}></ListItem>
                     })}
                 </ul>
             </div>
@@ -39,21 +51,6 @@ var ChartList=React.createClass({
 <button id="avb_MainCancel" type="button" className="avn_button avn_android avn_hidden"></button>
 */
 
-var ButtonList=React.createClass({
-   render: function(){
-       var buttons=this.props.buttons;
-       return(
-       <div className='avn_right_panel'>
-           {buttons.map(function(entry) {
-                   return <Button {...entry}></Button>;
-               }
-           )}
-
-       </div>
-       );
-
-   }
-});
 
 var Status=React.createClass({
     render: function(){
@@ -134,12 +131,34 @@ module.exports=React.createClass({
     },
     componentDidMount: function(x){
         Store.register(this);
+        this._fillData();
     },
     _onStatsClick: function(e){
         console.log("clicked "+e.target);
     },
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);
+    },
+    _fillData: function(){
+        var url="/viewer/avnav_navi.php?request=listCharts";
+        var self=this;
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            cache: false,
+            error: function(ev){
+                alert("unable to read chart list: "+ev.responseText);
+            },
+            success: function(data){
+                if (data.status != 'OK'){
+                    alert("reading chartlist failed: "+data.info);
+                    return;
+                }
+                self.setState({list:data.data});
+
+            }
+
+        });
     }
 
 

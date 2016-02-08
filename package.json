@@ -25,6 +25,7 @@
     "file-loader": "^0.8.5",
     "goratchet": "^2.0.2",
     "jest-cli": "*",
+    "jquery": "^2.2.0",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
     "react-addons-test-utils": "~0.14.7",

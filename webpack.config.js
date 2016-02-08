@@ -60,6 +60,10 @@ module.exports = {
             {
                 from: "index.html",
                 to: "index.html"
+            },
+            {
+                from:__dirname+"/node_modules/jquery/dist/jquery.min.js",
+                to: "libs/jquery.min.js"
             }
 
         ])
