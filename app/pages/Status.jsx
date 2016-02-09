@@ -6,6 +6,31 @@ var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
 
+
+var statusIcons= {
+    INACTIVE: "images/GreyBubble40.png",
+    STARTED: "images/YellowBubble40.png",
+    RUNNING: "images/YellowBubble40.png",
+    NMEA:   "images/GreenBubble40.png",
+    ERROR: "images/RedBubble40.png"
+};
+
+var WorkerStatus=React.createClass({
+    style:{
+      marginLeft:7
+    },
+    render: function(){
+        var item=this.props.item;
+        var icon=statusIcons[item.status||"INACTIVE"]||statusIcons.INACTIVE;
+        return(
+            <div style={this.style}>
+                <img className="avn_status_image_small" src={icon}></img>
+                <span className="avn_status_name">{item.name}</span>
+                <span className="avn_status_info">{item.info}</span>
+            </div>
+        );
+    }
+});
 var StatusEntry=React.createClass({
     render: function(){
         var base=this.props.status.configname;
@@ -13,9 +38,8 @@ var StatusEntry=React.createClass({
             <li className="table-view-cell">
                 {base}<br></br>
                 {this.props.status.info.items.map(function(entry){
-                    return (<div key={base+entry.name}>
-                        name={entry.name}, status={entry.info}
-                    </div>);
+                    return (<WorkerStatus key={base+entry.name} item={entry}>
+                    </WorkerStatus>);
                 })}
             </li>
         );
@@ -23,6 +47,7 @@ var StatusEntry=React.createClass({
 });
 
 module.exports=React.createClass({
+    interval:0,
     getInitialState: function(){
         return{
             list: []
@@ -47,6 +72,9 @@ module.exports=React.createClass({
     componentDidMount: function(x){
         this._queryStatus();
     },
+    componentWillUnmount: function(){
+      window.clearTimeout(this.interval);
+    },
     _buttons: function () {
         var self = this;
         return [
@@ -70,10 +98,12 @@ module.exports=React.createClass({
                 if (data && data.handler) {
                     self.setState({list:data.handler});
                 }
+                self.interval=window.setTimeout(self._queryStatus,5000);
             },
             error: function(status,data,error){
-                log("status query error");
+                console.log("status query error");
                 alert("status query error");
+                self.interval=window.setTimeout(self._queryStatus,5000);
             },
             timeout: 10
         });

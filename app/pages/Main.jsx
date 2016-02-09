@@ -92,11 +92,15 @@ module.exports=React.createClass({
                 text: "7/3"
             }
         };
+        var content=<h1>Loading charts...</h1>;
+        if (this.state.list && this.state.list.length){
+            content=<ChartList items={this.state.list}></ChartList>;
+        }
         return (
             <div className="avn_page">
                 <div className="avn_left_panel">
                     <div className="avn_main">
-                        <ChartList items={this.state.list}></ChartList>
+                        {content}
                     </div>
                     <BottomPanel status={status}></BottomPanel>
                 </div>
@@ -119,10 +123,6 @@ module.exports=React.createClass({
     },
     getInitialState: function(){
         var list=[];
-        var i=0;
-        for (;i< 20;i++){
-            list.push({name:"Chart"+i});
-        }
         return {
             list:list
         }
@@ -149,6 +149,7 @@ module.exports=React.createClass({
             dataType: 'json',
             cache: false,
             error: function(ev){
+                self.setState(self.getInitialState());
                 alert("unable to read chart list: "+ev.responseText);
             },
             success: function(data){
