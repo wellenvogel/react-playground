@@ -1,6 +1,7 @@
 import React from 'react';
 require("./css/avnav_viewer.less");
 import MainPage from "./pages/Main.jsx";
+import StatusPage from "./pages/Status.jsx";
 import Location from "./util/Location.jsx";
 
 
@@ -14,6 +15,7 @@ module.exports=React.createClass({
             </div>
             ;
         if (pagename == "main") page=<MainPage></MainPage>;
+        if (pagename == "status") page=<StatusPage></StatusPage>;
         return (
             page
         );
