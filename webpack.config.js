@@ -4,17 +4,18 @@ var CopyWebpackPlugin= require('copy-webpack-plugin');
 var ratchet=__dirname+"/node_modules/goratchet/dist";
 
 module.exports = {
-    entry: './app/main.jsx',
+    //see http://humaan.com/getting-started-with-webpack-and-react-es6-style/
+    entry: getEntrySources(['./app/main.jsx']),
+    //entry: './app/main.jsx',
+    publicPath: 'http://localhost:8081/test',
     output: { path: __dirname+"/build", filename: 'bundle.js' },
     module: {
         loaders: [
             {
                 test: /.jsx$/,
-                loader: 'babel-loader',
                 exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'react']
-                }
+                loaders: ['babel-loader?presets[]=react&presets[]=es2015']
+
             },
             {
                 test: /\.css$/,
@@ -22,7 +23,7 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                loader: "style!css!less",
+                loader: "style!css!less"
 
             },
 
@@ -68,5 +69,13 @@ module.exports = {
 
         ])
     ],
-    devtool:"source-map"
+    devtool:"eval"
+};
+
+function getEntrySources(sources) {
+    if (process.env.NODE_ENV !== 'production') {
+        sources.push('webpack-dev-server/client?http://localhost:8082');
+    }
+
+    return sources;
 };

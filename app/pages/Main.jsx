@@ -4,6 +4,7 @@
 var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
+var Location=require("../util/Location.jsx");
 
 var ListItem=React.createClass({
    render: function(){
@@ -135,6 +136,7 @@ module.exports=React.createClass({
     },
     _onStatsClick: function(e){
         console.log("clicked "+e.target);
+        Location.pushPage("status");
     },
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);
