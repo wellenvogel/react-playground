@@ -105,7 +105,7 @@ module.exports=React.createClass({
                 alert("status query error");
                 self.interval=window.setTimeout(self._queryStatus,5000);
             },
-            timeout: 10
+            timeout: 10000
         });
 
     }
