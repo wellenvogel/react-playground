@@ -5,14 +5,16 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
+var ListGroup=require("react-bootstrap/lib/ListGroup.js");
+var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
 
 
 var statusIcons= {
-    INACTIVE: "images/GreyBubble40.png",
-    STARTED: "images/YellowBubble40.png",
-    RUNNING: "images/YellowBubble40.png",
-    NMEA:   "images/GreenBubble40.png",
-    ERROR: "images/RedBubble40.png"
+    INACTIVE: require("../css/images/GreyBubble40.png"),
+    STARTED: require("../css/images/YellowBubble40.png"),
+    RUNNING: require("../css/images/YellowBubble40.png"),
+    NMEA:   require("../css/images/GreenBubble40.png"),
+    ERROR: require("../css/images/RedBubble40.png")
 };
 
 var WorkerStatus=React.createClass({
@@ -35,13 +37,13 @@ var StatusEntry=React.createClass({
     render: function(){
         var base=this.props.status.configname;
         return(
-            <li className="table-view-cell">
+            <ListGroupItem >
                 {base}<br></br>
                 {this.props.status.info.items.map(function(entry){
                     return (<WorkerStatus key={base+entry.name} item={entry}>
                     </WorkerStatus>);
                 })}
-            </li>
+            </ListGroupItem>
         );
     }
 });
@@ -57,13 +59,13 @@ module.exports=React.createClass({
         return (
         <div className="avn_page">
             <div className='avn_left_panel'>
-                <div className="content">
+                <div className="avn_scrollable">
                     <h1>Server Status</h1>
-                    <ul className="table-view">
+                    <ListGroup >
                         {this.state.list.map(function(entry){
                             return <StatusEntry status={entry}></StatusEntry>
                         })}
-                    </ul>
+                    </ListGroup>
                 </div>
             </div>
             <ButtonList buttons={this._buttons()}></ButtonList>

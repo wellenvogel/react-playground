@@ -5,20 +5,23 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
+var ListGroup=require("react-bootstrap/lib/ListGroup.js");
+var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
+var Alert=require("../components/Alert.jsx");
 
 var ListItem=React.createClass({
    render: function(){
-       var imageUrl="images/Chart60.png";
+       var imageUrl=require("../css/images/Chart60.png");
        if (this.props.data.icon){
            imageUrl=this.props.icon
        }
        return (
-           <li className="table-view-cell media navigate-right" onClick={this._onChartSelected}>
-               <img className="media-object pull-left avn_mainpage_image" src={imageUrl}></img>
-               <div className="media-body">
+           <ListGroupItem  onClick={this._onChartSelected}>
+               <img className="pull-left avn_mainpage_image" src={imageUrl}></img>
+               <div className="">
                    {this.props.data.name}
                </div>
-           </li>
+           </ListGroupItem>
        );
    },
     _onChartSelected: function(){
@@ -30,12 +33,12 @@ var ChartList=React.createClass({
     render: function(){
         var items=this.props.items;
         return(
-            <div className="content">
-                <ul className="table-view">
+            <div className="avn_scrollable">
+                <ListGroup >
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>
                     })}
-                </ul>
+                </ListGroup>
             </div>
         )
     }
@@ -52,16 +55,28 @@ var ChartList=React.createClass({
 <button id="avb_MainCancel" type="button" className="avn_button avn_android avn_hidden"></button>
 */
 
-
+var statusIcons= {
+    grey: require("../css/images/GreyBubble40.png"),
+    yellow: require("../css/images/YellowBubble40.png"),
+    green:   require("../css/images/GreenBubble40.png"),
+    red: require("../css/images/RedBubble40.png")
+};
 var Status=React.createClass({
     render: function(){
         return(
             <div className='avn_status_widget'>
-                <img className='avn_status_image_small' src={'images/'+this.props.status.status+'Bubble40.png'}/>
+                <img className='avn_status_image_small' src={this.getStatusImage()}/>
                 {this.props.name}&nbsp;<span className="">{this.props.status.text}</span>
             </div>
 
         );
+    },
+    getStatusImage:function(){
+        var color="grey";
+        if (this.props.status && this.props.status.status){
+            color=this.props.status.status.toLowerCase();
+        }
+        return statusIcons[color]||statusIcons.grey;
     }
 });
 
@@ -69,13 +84,13 @@ var BottomPanel=React.createClass({
    render: function(){
        return (
            <div className="avn_left_bottom">
-               <div className="pull-left">
-                   <Status status={this.props.status.ais} name="Ais"></Status>
-                   <Status status={this.props.status.nmea} name="Nmea"></Status>
-               </div>
-               <div className="pull-right">
-                   <a href="http://www.wellenvogel.de">AvNav React0.1</a>
-               </div>
+                   <div className="pull-left">
+                       <Status status={this.props.status.ais} name="Ais"></Status>
+                       <Status status={this.props.status.nmea} name="Nmea"></Status>
+                   </div>
+                   <div className="pull-right">
+                       <a href="http://www.wellenvogel.de">AvNav React0.1</a>
+                   </div>
            </div>
        );
    }
@@ -140,6 +155,11 @@ module.exports=React.createClass({
     },
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);
+        Alert({title:"Not Implemented",
+            body: <p>This feature is not implemented yet</p>,
+            okIcon: "checkmark",
+            //cancelIcon: "arrow-left2"
+        }).catch(function(){});
     },
     _fillData: function(){
         var url="/viewer/avnav_navi.php?request=listCharts";

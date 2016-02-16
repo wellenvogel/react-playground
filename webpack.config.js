@@ -35,6 +35,15 @@ module.exports = {
                 query:{
                     name: "build/fonts/[name].[ext]"
                 }
+            },
+            {
+                test: /images\/.*\.png$|images\/.*\.svg$/,
+                loader: 'file-loader',
+                //we are not really able to tell the file loader to copy files correctly
+                //so we let it copy them and afterwards copy them again by the copy plugin
+                query:{
+                    name: "build/images/[name].[ext]"
+                }
             }
 
 
@@ -43,20 +52,8 @@ module.exports = {
     plugins:[
         new CopyWebpackPlugin([
             {
-                from: ratchet+"/css",
-                to: "css"
-            },
-            {
-                from: ratchet+"/fonts",
-                to: "fonts"
-            },
-            {
                 from: __dirname+"/app/css/fonts",
                 to: "fonts"
-            },
-            {
-                from: __dirname+"/../avnav/viewer/images",
-                to: "images"
             },
             {
                 from: "index.html",
@@ -65,6 +62,10 @@ module.exports = {
             {
                 from:__dirname+"/node_modules/jquery/dist/jquery.min.js",
                 to: "libs/jquery.min.js"
+            },
+            {
+                from:__dirname+"/node_modules/bootstrap/dist/css/bootstrap.min.css",
+                to: "css/bootstrap.min.css"
             }
 
         ])
@@ -74,7 +75,7 @@ module.exports = {
 
 function getEntrySources(sources) {
     if (process.env.NODE_ENV !== 'production') {
-        sources.push('webpack-dev-server/client?http://localhost:8082');
+        //sources.push('webpack-dev-server/client?http://localhost:8082');
     }
 
     return sources;

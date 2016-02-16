@@ -55,6 +55,9 @@
 .icon-arrow-left2{
   .ourIcon("\ea40");
 }
+.icon-checkmark {
+  .ourIcon("\ea10");
+}
 
   .nightColors() when ( @nightModePercent <100% ){
     background-color: #000;
@@ -136,6 +139,14 @@
     right: 0px;
 
   }
+  .avn_scrollable{
+    overflow: auto;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+  }
 
 /*
   4. bottom line  - see .avn_leftBottom
@@ -209,6 +220,7 @@
     //position: relative;
     cursor: pointer;
     outline: none;
+    font-size: ( @buttonSize / 2.5);
 
   }
   button.avn_button{
@@ -248,3 +260,14 @@
   .avn_button_icon_base_toggle(@icon,@innerWidth: ( @buttonSize * 30 / 60 ) ){
     .avn_button_icon_base(@icon,@innerWidth);
   }
+
+
+/** from react-bootstrap
+**/
+
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}

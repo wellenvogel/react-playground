@@ -8,6 +8,11 @@ import React from 'react';
 import Store from "./stores/Store.jsx";
 import App from "./App.jsx";
 import Location from "./util/Location.jsx";
+import assign from 'object-assign';
+
+if (! window.Promise){
+    window.Promise=require('es6-promise-polyfill').Promise;
+}
 
 require("./css/avnav_viewer.less");
 
@@ -19,7 +24,7 @@ function render(state) {
 }
 var unlisten=Location.listen(location => {
     var currentLocation = location;
-    var currentState = Object.assign({}, location.state, {
+    var currentState = assign({}, location.state, {
         path: location.pathname,
         query: location.query,
         state: location.state
