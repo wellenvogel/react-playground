@@ -18,7 +18,7 @@ if (! window.Promise){
 }
 */
 
-require("./css/avnav_viewer.less");
+
 
 function render(state) {
     React.render(
@@ -40,7 +40,7 @@ var unlisten=Location.listen(location => {
 
 
 console.log("ReactMain started");
-addEventListener(window, 'pagehide', () => {
+window.addEventListener('pagehide', () => {
     unlisten();
 });
 setInterval(function(){

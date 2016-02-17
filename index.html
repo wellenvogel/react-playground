@@ -3,18 +3,24 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>React Test2</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/avnav_viewer.less" rel="stylesheet/less" type="text/css"/>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
     <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript">
+        less={
+            env: "development"
+        }
+    </script>
     <script src="libs/jquery.min.js"></script>
-
 </head>
 <body>
 <div id="mount-point" style="width:100%;height: 100%"></div>
 <div id="overlay-container" style="display: none"></div>
 <script src="bundle.js"></script>
+<script src="libs/less.min.js"></script>
 </body>
 </html>
