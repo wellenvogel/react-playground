@@ -7,7 +7,7 @@ var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
 var ListGroup=require("react-bootstrap/lib/ListGroup.js");
 var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
-var Alert=require("../components/Alert.jsx");
+var Alert=require("../components/Alert.jsx").alert;
 
 var ListItem=React.createClass({
    render: function(){
@@ -26,6 +26,7 @@ var ListItem=React.createClass({
    },
     _onChartSelected: function(){
         console.log("selected chart "+this.props.data.name);
+        Location.pushPage("map",{mapdata:this.props.data});
     }
 });
 
@@ -157,9 +158,7 @@ module.exports=React.createClass({
         console.log("clicked "+e.target);
         Alert({title:"Not Implemented",
             body: <p>This feature is not implemented yet</p>,
-            okIcon: "checkmark",
-            //cancelIcon: "arrow-left2"
-        }).catch(function(){});
+        });
     },
     _fillData: function(){
         var url="/viewer/avnav_navi.php?request=listCharts";
@@ -170,11 +169,11 @@ module.exports=React.createClass({
             cache: false,
             error: function(ev){
                 self.setState(self.getInitialState());
-                alert("unable to read chart list: "+ev.responseText);
+                Alert("unable to read chart list: "+ev.responseText);
             },
             success: function(data){
                 if (data.status != 'OK'){
-                    alert("reading chartlist failed: "+data.info);
+                    Alert("reading chartlist failed: "+data.info);
                     return;
                 }
                 self.setState({list:data.data});

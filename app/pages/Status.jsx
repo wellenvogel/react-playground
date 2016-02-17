@@ -7,6 +7,7 @@ var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
 var ListGroup=require("react-bootstrap/lib/ListGroup.js");
 var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
+var Alert=require("../components/Alert.jsx").alert;
 
 
 var statusIcons= {
@@ -104,7 +105,7 @@ module.exports=React.createClass({
             },
             error: function(status,data,error){
                 console.log("status query error");
-                alert("status query error");
+                Alert("status query error: "+error);
                 self.interval=window.setTimeout(self._queryStatus,5000);
             },
             timeout: 10000

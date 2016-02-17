@@ -9,6 +9,7 @@ import Store from "./stores/Store.jsx";
 import App from "./App.jsx";
 import Location from "./util/Location.jsx";
 import assign from 'object-assign';
+import AlertHandler from './components/Alert.jsx';
 
 if (! window.Promise){
     window.Promise=require('es6-promise-polyfill').Promise;
@@ -43,3 +44,4 @@ setInterval(function(){
     //console.log("timer");
     Store.update({text:new Date().toISOString()});
 },1000);
+AlertHandler.render(document.getElementById('overlay-container'));

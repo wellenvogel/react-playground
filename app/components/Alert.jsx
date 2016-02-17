@@ -94,18 +94,48 @@ var AlertList=React.createClass({
         AlertListInstance=this;
     }
 });
-React.render(
-    <AlertList></AlertList>,
-    document.getElementById('overlay-container')
-);
 
-module.exports=function(options){http://www.w3schools.com/cssref/css3_pr_text-shadow.asp
-    return new Promise(function (resolve, reject) {
-        if (AlertListInstance == null){
-            window.setTimeout(reject(new Error("not initialzed")),0);
-            return;
+
+module.exports= {
+    /**
+     * create an alert
+     * returns a promise that fulfills if the user clicks ok
+     * @param options {object}
+     *        okIcon - set the icon name for OK
+     *        showCancel - show a cancel button
+     *        cancelIcon - use this icon for cancel
+     */
+    alert: function(options){
+            if (typeof options === "string"){
+                var noptions={
+                    title: "Alert",
+                    body: <p>{options}</p>
+                };
+                options=noptions;
+            }
+            return new Promise(function (resolve, reject) {
+                if (AlertListInstance == null) {
+                    window.setTimeout(reject(new Error("not initialzed")), 0);
+                    return;
+                }
+                var finalOptions = assign({}, options, {okCallback: resolve, cancelCallback: reject});
+                if (!finalOptions.okIcon) finalOptions.okIcon = "checkmark";
+                if (finalOptions.showCancel && !finalOptions.cancelIcon) finalOptions.cancelIcon = "arrow-left2";
+                AlertListInstance.add(finalOptions);
+            });
+    },
+    /**
+     * render the single list of alerts
+     * @param target {object}
+     *        DOM element to render to
+     */
+    render: function(target){
+        if (AlertListInstance != null){
+            throw new Error("you can only render alertList once");
         }
-        var finalOptions=assign({},options,{okCallback:resolve,cancelCallback:reject});
-        AlertListInstance.add(finalOptions);
-    });
+        React.render(
+            <AlertList></AlertList>,
+            target
+        );
+    }
 };

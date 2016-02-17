@@ -2,6 +2,7 @@ import React from 'react';
 require("./css/avnav_viewer.less");
 import MainPage from "./pages/Main.jsx";
 import StatusPage from "./pages/Status.jsx";
+import MapPage from "./pages/Map.jsx";
 import Location from "./util/Location.jsx";
 
 
@@ -14,8 +15,9 @@ module.exports=React.createClass({
                 <button onClick={this._mainPage}>Start</button>
             </div>
             ;
-        if (pagename == "main") page=<MainPage></MainPage>;
-        if (pagename == "status") page=<StatusPage></StatusPage>;
+        if (pagename == "main") page=<MainPage options={this.props.state.options}></MainPage>;
+        if (pagename == "status") page=<StatusPage options={this.props.state.options}></StatusPage>;
+        if (pagename == "map") page=<MapPage options={this.props.state.options}></MapPage>;
         return (
             page
         );
