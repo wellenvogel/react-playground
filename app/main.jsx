@@ -10,10 +10,13 @@ import App from "./App.jsx";
 import Location from "./util/Location.jsx";
 import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
+import 'babel-polyfill';
 
+/*
 if (! window.Promise){
     window.Promise=require('es6-promise-polyfill').Promise;
 }
+*/
 
 require("./css/avnav_viewer.less");
 

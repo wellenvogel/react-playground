@@ -12,9 +12,12 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /.jsx$/,
+                test: /.jsx$|.js$/,
                 exclude: /node_modules/,
-                loaders: ['babel-loader?presets[]=react&presets[]=es2015']
+                loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'es2015']
+                }
 
             },
             {
@@ -63,6 +66,12 @@ module.exports = {
                 from:__dirname+"/node_modules/jquery/dist/jquery.min.js",
                 to: "libs/jquery.min.js"
             },
+            /*
+            {
+                from:__dirname+"/node_modules/babel-polyfill/dist/polyfill.min.js",
+                to: "libs/polyfill.min.js"
+            },
+            */
             {
                 from:__dirname+"/node_modules/bootstrap/dist/css/bootstrap.min.css",
                 to: "css/bootstrap.min.css"

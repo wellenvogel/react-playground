@@ -76,7 +76,7 @@ module.exports=React.createClass({
         this._queryStatus();
     },
     componentWillUnmount: function(){
-      window.clearTimeout(this.interval);
+        window.clearTimeout(this.interval);
     },
     _buttons: function () {
         var self = this;
@@ -91,6 +91,7 @@ module.exports=React.createClass({
         Location.goBack();
     },
     _queryStatus: function(){
+        if (! this.isMounted()) return;
         var self=this;
         var url="/viewer/avnav_navi.php?request=status";
         $.ajax({
@@ -105,8 +106,9 @@ module.exports=React.createClass({
             },
             error: function(status,data,error){
                 console.log("status query error");
-                Alert("status query error: "+error);
-                self.interval=window.setTimeout(self._queryStatus,5000);
+                Alert("status query error: "+error).then(function() {
+                    self.interval = window.setTimeout(self._queryStatus, 5000);
+                });
             },
             timeout: 10000
         });
