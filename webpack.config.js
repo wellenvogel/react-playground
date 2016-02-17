@@ -31,7 +31,7 @@ var copyList=[
     }
 
 ];
-['jquery','less'].map(function(el){
+['jquery'].map(function(el){
     copyList.push({
         from: __dirname+"/node_modules/"+el+"/dist/"+el+".min.js",
         to:  "libs/"+el+".min.js"

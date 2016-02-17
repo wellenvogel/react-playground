@@ -8,7 +8,8 @@
     "test": "jest",
     "test-debug": "nodejs --debug-brk  --harmony node_modules/.bin/jest --runInBand",
     "webpack-server": "webpack-dev-server --hot --progress --colors --port=8082",
-    "avnav-server": "../avnav/server/avnav_server.py avnav_server.xml"
+    "avnav-server": "../avnav/server/avnav_server.py avnav_server.xml",
+    "deploy": "NODE_ENV=production webpack -p"
   },
   "author": "",
   "license": "BSD-2-Clause",
