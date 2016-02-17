@@ -11,6 +11,7 @@ import Location from "./util/Location.jsx";
 import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
 import 'babel-polyfill';
+import './css/avnav_viewer.less';
 
 /*
 if (! window.Promise){

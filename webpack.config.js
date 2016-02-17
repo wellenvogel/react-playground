@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin= require('copy-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var ratchet=__dirname+"/node_modules/goratchet/dist";
 
 var copyList=[
@@ -8,10 +9,12 @@ var copyList=[
         from: __dirname+"/app/css/fonts",
         to: "css/fonts"
     },
+    /*
     {
         from: __dirname+"/app/css/avnav_viewer.less",
         to: "css/avnav_viewer.less"
     },
+    */
     {
         from: "index.html",
         to: "index.html"
@@ -53,11 +56,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader"
+                loader: ExtractTextPlugin.extract("style-loader","css-loader")
             },
             {
                 test: /\.less$/,
-                loader: "style!css!less"
+                loader: ExtractTextPlugin.extract("style-loader","css-loader!less-loader")
 
             },
 
@@ -67,7 +70,7 @@ module.exports = {
                 //we are not really able to tell the file loader to copy files correctly
                 //so we let it copy them and afterwards copy them again by the copy plugin
                 query:{
-                    name: "build/fonts/[name].[ext]"
+                    name: "fonts/[name].[ext]"
                 }
             },
             {
@@ -76,7 +79,7 @@ module.exports = {
                 //we are not really able to tell the file loader to copy files correctly
                 //so we let it copy them and afterwards copy them again by the copy plugin
                 query:{
-                    name: "build/images/[name].[ext]"
+                    name: "images/[name].[ext]"
                 }
             }
 
@@ -85,7 +88,8 @@ module.exports = {
     },
     plugins:[
 
-        new CopyWebpackPlugin(copyList)
+        new CopyWebpackPlugin(copyList),
+        new ExtractTextPlugin("css/[name].css")
     ],
     devtool:"eval"
 };
