@@ -58,7 +58,12 @@
 .icon-checkmark {
   .ourIcon("\ea10");
 }
-
+.icon-zoom-in{
+  .ourIcon("\e987");
+}
+.icon-zoom-out{
+  .ourIcon("\e988");
+}
   .nightColors() when ( @nightModePercent <100% ){
     background-color: #000;
     color: @nightColor;
@@ -92,7 +97,6 @@
     margin: 0;
     padding: 0;
     font-family: Verdana,Arial,sans-serif;
-    font-size: 0.8em;
   }
 
   .avn_panel{
@@ -105,7 +109,8 @@
     left: 0px;
     top: 0px;
     bottom: 0px;
-    right: (@buttonSize + 10 );
+    //right: (@buttonSize + 10 );
+    right: 0px; //buttons "float" over content
     overflow: hidden;
   }
 
@@ -151,23 +156,29 @@
 /*
   4. bottom line  - see .avn_leftBottom
 */
-.avn_left_bottom{
+.avn_left_bottom {
   .avn_panel();
   bottom: 0px;
   height: @bottomPanelHeight;
   left: 0px;
   right: 0px;
-  background-color: fade(rgb(222, 226, 207),@nightModePercent);
+  background-color: fade(rgb(222, 226, 207), @nightModePercent);
 }
 
-  .avn_right_panel{
-    .avn_panel();
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    width: ( @buttonSize + 10 );
-    background-color: fade(#6D6D6D,@nightModePercent);
-  }
+.avn_right_panel {
+  .avn_panel();
+  top: 0px;
+  right: 0px;
+  width: ( @buttonSize * 1.1 );
+}
+
+.avn_fill_panel{
+  .avn_panel();
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
   .avn_status_widget{
     background-color: fade(#C7C7AE,@nightModePercent);
@@ -211,16 +222,15 @@
     width: @bWitdh;
     height: @bSize;
     margin: 3px 3px 3px 3px;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-radius: 50%;
     border: 1px solid #D3D3D3;
-    background: fade(#E6E6E6,@nightModePercent);
     //position: relative;
     cursor: pointer;
     outline: none;
     font-size: ( @buttonSize / 2.5);
+    color: white;
+    .nightColors();
+    background: fade(#9E1E1E,@nightModePercent);
 
   }
   button.avn_button{

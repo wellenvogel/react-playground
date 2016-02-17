@@ -11,7 +11,7 @@ MapHolder.init();
 
 var Map=React.createClass({
     render: function(){
-        return(<div className="avn_main" ref="mapdiv">
+        return(<div className="avn_fill_panel" ref="mapdiv">
             </div>
         );
     },
@@ -24,20 +24,7 @@ var Map=React.createClass({
 
 });
 
-var BottomPanel=React.createClass({
-   render: function(){
-       return (
-           <div className="avn_left_bottom">
-                   <div className="pull-left">
 
-                   </div>
-                   <div className="pull-right">
-                       <a href="http://www.wellenvogel.de">AvNav React0.1</a>
-                   </div>
-           </div>
-       );
-   }
-});
 module.exports=React.createClass({
     render: function(){
         var status={
@@ -52,9 +39,8 @@ module.exports=React.createClass({
         };
         return (
             <div className="avn_page">
-                <div className="avn_left_panel">
+                <div className="avn_fill_panel">
                     <Map></Map>
-                    <BottomPanel status={status}></BottomPanel>
                 </div>
                 <ButtonList buttons={this._buttons()}></ButtonList>
             </div>
@@ -64,6 +50,14 @@ module.exports=React.createClass({
         var self = this;
         return [
             {
+                icon: "zoom-in",
+                onClick: self._onZoomInClick
+            },
+            {
+                icon: "zoom-out",
+                onClick: self._onZoomOutClick
+            },
+            {
                 icon: "arrow-left2",
                 onClick: self._onBackClick
             }
@@ -71,6 +65,12 @@ module.exports=React.createClass({
     },
     _onBackClick:function(e){
         Location.goBack();
+    },
+    _onZoomInClick:function(e){
+        MapHolder.zoom(1);
+    },
+    _onZoomOutClick:function(e){
+        MapHolder.zoom(-1);
     }
     ,
     getInitialState: function(){
