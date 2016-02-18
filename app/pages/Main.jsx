@@ -6,25 +6,40 @@ var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
 var MList=require('material-ui/lib/lists/list');
-var MListItem=require('material-ui/lib/lists/list-item');
+var MListItem=require('../components/MListItem.jsx');
 var Alert=require("../components/Alert.jsx").alert;
+var getMuiTheme = require('material-ui/lib/styles/getMuiTheme');
+var FullPanel=require('../components/PanelFull.jsx');
+var extend = require('lodash/extend');
+var Settings=require('../stores/Settings.jsx');
 
-var ListItem=React.createClass({
-   render: function(){
-       var imageUrl=require("../css/images/Chart60.png");
-       if (this.props.data.icon){
-           imageUrl=this.props.icon
-       }
-       return (
-           <MListItem  onClick={this._onChartSelected}
-               leftIcon={<img className="pull-left avn_mainpage_image" src={imageUrl}></img>}
-                   primaryText={this.props.data.name}>
-           </MListItem>
-       );
-   },
-    _onChartSelected: function(){
-        console.log("selected chart "+this.props.data.name);
-        Location.pushPage("map",{mapdata:this.props.data});
+var ListItem = React.createClass({
+    contextTypes: {
+        muiTheme: React.PropTypes.object
+    },
+    getInitialState: function () {
+        return({
+            muiTheme: this.context.muiTheme||getMuiTheme.default
+        });
+    },
+    render: function () {
+        var style={
+            borderBottom: '1px solid '+this.state.muiTheme.tableRow.borderColor
+        };
+        var imageUrl = require("../css/images/Chart60.png");
+        if (this.props.data.icon) {
+            imageUrl = this.props.icon
+        }
+        return (
+            <MListItem style={style} onClick={this._onChartSelected}
+                       leftIcon={<img  src={imageUrl}></img>}
+                       primaryText={this.props.data.name}>
+            </MListItem>
+        );
+    },
+    _onChartSelected: function () {
+        console.log("selected chart " + this.props.data.name);
+        Location.pushPage("map", {mapdata: this.props.data});
     }
 });
 
@@ -32,27 +47,17 @@ var ChartList=React.createClass({
     render: function(){
         var items=this.props.items;
         return(
-            <div className="avn_scrollable">
+            <FullPanel scrollable={true}>
                 <MList >
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>
                     })}
                 </MList>
-            </div>
+            </FullPanel>
         )
     }
 });
 
-/*
-<button id="avb_ShowStatus" type="button" className="avn_button"></button>
-<button id="avb_ShowSettings" type="button" className="avn_button"></button>
-<button id="avb_ShowHelp" type="button" className="avn_button"></button>
-<button id="avb_ShowDownload" type="button" className="avn_button"></button>
-<button id="avb_Connected" type="button" className="avn_button avn_toggleButton"></button>
-<button id="avb_ShowGps" type="button" className="avn_button">000</button>
-<button id="avb_Night" type="button" className="avn_button avn_toggleButton"></button>
-<button id="avb_MainCancel" type="button" className="avn_button avn_android avn_hidden"></button>
-*/
 
 var statusIcons= {
     grey: require("../css/images/GreyBubble40.png"),
@@ -60,12 +65,38 @@ var statusIcons= {
     green:   require("../css/images/GreenBubble40.png"),
     red: require("../css/images/RedBubble40.png")
 };
+
+//factors to derive from basic fontsize
+const statusFontFactor=1.0/1.5;
+const statusLineHeightFactor=1.0/1.3;
+const widgetTopBottomMargin=2;
+const widgetTopBottomPadding=2;
+var statusWidgetStyle={
+    backgroundColor: '#C7C7AE', //TODO: color overwrite from theme
+    paddingRight: 8,
+    paddingBottom: widgetTopBottomPadding,
+    paddingTop: widgetTopBottomPadding,
+    marginBottom: widgetTopBottomMargin,
+    marginTop: widgetTopBottomMargin,
+    marginLeft: 2,
+    borderRadius: 3,
+};
 var Status=React.createClass({
     render: function(){
+        var fb=Settings.getFontBase();
+        var finalStyle=extend({},this.props.style,statusWidgetStyle,{
+            fontSize:  fb*statusFontFactor,
+            //lineHeight: fb*statusLineHeightFactor
+        });
+        var imageStyle={
+            height: fb*statusFontFactor*2,
+            width:  fb*statusFontFactor*2,
+            verticalAlign: 'middle'
+        };
         return(
-            <div className='avn_status_widget'>
-                <img className='avn_status_image_small' src={this.getStatusImage()}/>
-                {this.props.name}&nbsp;<span className="">{this.props.status.text}</span>
+            <div style={finalStyle}>
+                <img style={imageStyle} src={this.getStatusImage()}/>
+                {this.props.name}&nbsp;<span >{this.props.status.text}</span>
             </div>
 
         );
@@ -81,16 +112,19 @@ var Status=React.createClass({
 
 var BottomPanel=React.createClass({
    render: function(){
+       var style=extend({},this.props.style,{
+           backgroundColor:'#dee2cf'
+       });
        return (
-           <div className="avn_left_bottom">
-                   <div className="pull-left">
+           <FullPanel style={style} noTop={true}>
+                   <div style={{float:'left'}}>
                        <Status status={this.props.status.ais} name="Ais"></Status>
                        <Status status={this.props.status.nmea} name="Nmea"></Status>
                    </div>
-                   <div className="pull-right">
+                   <div style={{float:'right'}}>
                        <a href="http://www.wellenvogel.de">AvNav React0.1</a>
                    </div>
-           </div>
+           </FullPanel>
        );
    }
 });
@@ -110,16 +144,15 @@ module.exports=React.createClass({
         if (this.state.list && this.state.list.length){
             content=<ChartList items={this.state.list}></ChartList>;
         }
+        var bottomHeight=2*(Settings.getFontBase()*statusFontFactor*2+widgetTopBottomMargin*2+widgetTopBottomPadding*2); //image height + paddings, margings
         return (
-            <div className="avn_page">
-                <div className="avn_left_panel">
-                    <div className="avn_main">
+            <FullPanel>
+                    <FullPanel style={{bottom:bottomHeight}}>
                         {content}
-                    </div>
-                    <BottomPanel status={status}></BottomPanel>
-                </div>
+                    </FullPanel>
+                    <BottomPanel status={status} style={{height:bottomHeight}}></BottomPanel>
                 <ButtonList buttons={this.buttons()}></ButtonList>
-            </div>
+            </FullPanel>
         );
     },
     buttons:function(){
