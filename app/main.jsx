@@ -13,6 +13,14 @@ import AlertHandler from './components/Alert.jsx';
 import 'babel-polyfill';
 import './css/avnav_viewer.less';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
+
 /*
 if (! window.Promise){
     window.Promise=require('es6-promise-polyfill').Promise;

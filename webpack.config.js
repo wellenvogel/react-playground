@@ -9,26 +9,11 @@ var copyList=[
         from: __dirname+"/app/css/fonts",
         to: "css/fonts"
     },
-    /*
-    {
-        from: __dirname+"/app/css/avnav_viewer.less",
-        to: "css/avnav_viewer.less"
-    },
-    */
     {
         from: "index.html",
         to: "index.html"
-    },
-    /*
-     {
-     from:__dirname+"/node_modules/babel-polyfill/dist/polyfill.min.js",
-     to: "libs/polyfill.min.js"
-     },
-     */
-    {
-        from:__dirname+"/node_modules/bootstrap/dist/css/bootstrap.min.css",
-        to: "css/bootstrap.min.css"
     }
+
 
 ];
 ['jquery'].map(function(el){

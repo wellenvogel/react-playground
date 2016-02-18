@@ -3,7 +3,7 @@
  */
 
 var React=require('react');
-var Modal=require('react-bootstrap/lib/Modal.js');
+var Dialog=require('material-ui/lib/dialog');
 //var Button=require('react-bootstrap/lib/Button.js');
 var Button=require('../components/Button.jsx');
 var update = require('react-addons-update');
@@ -31,20 +31,14 @@ var Alert=React.createClass({
         if (this.props.cancelIcon) {
             cancelBtn=<Button onClick={this.cancel} icon={this.props.cancelIcon}></Button>;
         }
-
+        const buttons=[
+            {cancelBtn},
+            <Button onClick={this.ok} icon={this.props.okIcon}></Button>
+        ];
         return(
-            <Modal show={true} >
-                <Modal.Header>
-                    <Modal.Title>{this.props.title}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            <Dialog open={true} title={this.props.title} actions={buttons}>
                     {this.props.body}
-                </Modal.Body>
-                <Modal.Footer>
-                    {cancelBtn}
-                    <Button onClick={this.ok} icon={this.props.okIcon}></Button>
-                </Modal.Footer>
-            </Modal>
+            </Dialog>
         );
     },
     clickHandler: function(event){

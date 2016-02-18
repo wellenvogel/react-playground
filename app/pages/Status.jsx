@@ -5,8 +5,8 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
-var ListGroup=require("react-bootstrap/lib/ListGroup.js");
-var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
+var MList=require('material-ui/lib/lists/list');
+var MListItem=require('material-ui/lib/lists/list-item');
 var Alert=require("../components/Alert.jsx").alert;
 
 
@@ -38,13 +38,13 @@ var StatusEntry=React.createClass({
     render: function(){
         var base=this.props.status.configname;
         return(
-            <ListGroupItem >
+            <MListItem >
                 {base}<br></br>
                 {this.props.status.info.items.map(function(entry){
                     return (<WorkerStatus key={base+entry.name} item={entry}>
                     </WorkerStatus>);
                 })}
-            </ListGroupItem>
+            </MListItem>
         );
     }
 });
@@ -62,11 +62,11 @@ module.exports=React.createClass({
             <div className='avn_left_panel'>
                 <div className="avn_scrollable">
                     <h1>Server Status</h1>
-                    <ListGroup >
+                    <MList >
                         {this.state.list.map(function(entry){
                             return <StatusEntry status={entry}></StatusEntry>
                         })}
-                    </ListGroup>
+                    </MList>
                 </div>
             </div>
             <ButtonList buttons={this._buttons()}></ButtonList>

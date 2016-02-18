@@ -5,8 +5,8 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
-var ListGroup=require("react-bootstrap/lib/ListGroup.js");
-var ListGroupItem=require("react-bootstrap/lib/ListGroupItem.js");
+var MList=require('material-ui/lib/lists/list');
+var MListItem=require('material-ui/lib/lists/list-item');
 var Alert=require("../components/Alert.jsx").alert;
 
 var ListItem=React.createClass({
@@ -16,12 +16,10 @@ var ListItem=React.createClass({
            imageUrl=this.props.icon
        }
        return (
-           <ListGroupItem  onClick={this._onChartSelected}>
-               <img className="pull-left avn_mainpage_image" src={imageUrl}></img>
-               <div className="">
-                   {this.props.data.name}
-               </div>
-           </ListGroupItem>
+           <MListItem  onClick={this._onChartSelected}
+               leftIcon={<img className="pull-left avn_mainpage_image" src={imageUrl}></img>}
+                   primaryText={this.props.data.name}>
+           </MListItem>
        );
    },
     _onChartSelected: function(){
@@ -35,11 +33,11 @@ var ChartList=React.createClass({
         var items=this.props.items;
         return(
             <div className="avn_scrollable">
-                <ListGroup >
+                <MList >
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>
                     })}
-                </ListGroup>
+                </MList>
             </div>
         )
     }
