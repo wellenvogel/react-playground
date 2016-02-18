@@ -14,24 +14,13 @@ var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
 
 var ListItem = React.createClass({
-    contextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-    getInitialState: function () {
-        return({
-            muiTheme: this.context.muiTheme||getMuiTheme.default
-        });
-    },
     render: function () {
-        var style={
-            borderBottom: '1px solid '+this.state.muiTheme.tableRow.borderColor
-        };
         var imageUrl = require("../css/images/Chart60.png");
         if (this.props.data.icon) {
             imageUrl = this.props.icon
         }
         return (
-            <MListItem style={style} onClick={this._onChartSelected}
+            <MListItem borderBottom={true} onClick={this._onChartSelected}
                        leftIcon={<img  src={imageUrl}></img>}
                        primaryText={this.props.data.name}>
             </MListItem>

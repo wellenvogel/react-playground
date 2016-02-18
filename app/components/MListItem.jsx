@@ -10,13 +10,32 @@ var Settings=require('../stores/Settings.jsx');
 
 
 module.exports=React.createClass({
+    propTypes: {
+        borderBottom: React.PropTypes.bool
+    },
+    contextTypes: {
+        muiTheme: React.PropTypes.object
+    },
+    getInitialState: function () {
+        return({
+            muiTheme: this.context.muiTheme||getMuiTheme.default
+        });
+    },
     render: function(){
         var style={
             fontSize: Settings.getFontBase()
         };
         var finalStyle=extend({},this.props.style,style);
+        var item=<ListItem {...this.props} style={finalStyle}>{this.props.children}</ListItem>;
+        if (this.props.borderBottom) {
+            return (
+                <div style={{borderBottom: '1px solid '+this.state.muiTheme.tableRow.borderColor}}>
+                    {item}
+                </div>
+            );
+        }
         return(
-            <ListItem {...this.props} style={finalStyle}>{this.children}</ListItem>
+            item
         );
     }
 });

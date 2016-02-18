@@ -4,9 +4,10 @@
 var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
+var FullPanel=require("../components/PanelFull.jsx");
 var Location=require("../util/Location.jsx");
 var MList=require('material-ui/lib/lists/list');
-var MListItem=require('material-ui/lib/lists/list-item');
+var MListItem=require('../components/MListItem.jsx');
 var Alert=require("../components/Alert.jsx").alert;
 
 
@@ -26,24 +27,32 @@ var WorkerStatus=React.createClass({
         var item=this.props.item;
         var icon=statusIcons[item.status||"INACTIVE"]||statusIcons.INACTIVE;
         return(
-            <div style={this.style}>
-                <img className="avn_status_image_small" src={icon}></img>
-                <span className="avn_status_name">{item.name}</span>
-                <span className="avn_status_info">{item.info}</span>
-            </div>
+            <MListItem
+                style={this.style}
+                innerDivStyle={{paddingTop:4,paddingBottom:4}}
+                leftIcon={<img src={icon} style={{marginTop:0}}></img>}
+                primaryText={item.name+" "+item.info}>
+            </MListItem>
         );
     }
 });
 var StatusEntry=React.createClass({
     render: function(){
         var base=this.props.status.configname;
+        var hasSub=this.props.status.info.items.length?true:false;
         return(
-            <MListItem >
-                {base}<br></br>
-                {this.props.status.info.items.map(function(entry){
-                    return (<WorkerStatus key={base+entry.name} item={entry}>
-                    </WorkerStatus>);
-                })}
+            <MListItem
+                borderBottom={true}
+                key={base}
+                primaryText={base}
+                initiallyOpen={hasSub}
+                autoGenerateNestedIndicator= {false}
+                nestedItems={[
+                    this.props.status.info.items.map(function(entry){
+                        return (<WorkerStatus key={base+entry.name} item={entry}>
+                        </WorkerStatus>);
+                    })
+                ]}>
             </MListItem>
         );
     }
@@ -58,19 +67,17 @@ module.exports=React.createClass({
     },
     render: function(){
         return (
-        <div className="avn_page">
-            <div className='avn_left_panel'>
-                <div className="avn_scrollable">
+        <FullPanel>
+            <FullPanel scrollable={true}>
                     <h1>Server Status</h1>
                     <MList >
                         {this.state.list.map(function(entry){
                             return <StatusEntry status={entry}></StatusEntry>
                         })}
                     </MList>
-                </div>
-            </div>
+            </FullPanel>
             <ButtonList buttons={this._buttons()}></ButtonList>
-        </div>);
+        </FullPanel>);
     },
     componentDidMount: function(x){
         this._queryStatus();
