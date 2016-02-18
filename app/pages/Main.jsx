@@ -11,6 +11,10 @@ var Alert=require("../components/Alert.jsx").alert;
 var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
+var ToolBar=require('material-ui/lib/toolbar').Toolbar;
+var ToolBarGroup=require('material-ui/lib/toolbar').ToolbarGroup;
+var ToolBarSeparator=require('material-ui/lib/toolbar').ToolbarSeparator;
+var RaisedButton=require("material-ui/lib/raised-button");
 
 var ListItem = React.createClass({
     render: function () {
@@ -101,18 +105,21 @@ var Status=React.createClass({
 var BottomPanel=React.createClass({
    render: function(){
        var style=extend({},this.props.style,{
-           backgroundColor:'#dee2cf'
+           position: 'absolute',
+           bottom: 0
        });
        return (
-           <FullPanel style={style} noTop={true}>
-                   <div style={{float:'left'}}>
-                       <Status status={this.props.status.ais} name="Ais"></Status>
-                       <Status status={this.props.status.nmea} name="Nmea"></Status>
-                   </div>
-                   <div style={{float:'right'}}>
-                       <a href="http://www.wellenvogel.de">AvNav React0.1</a>
-                   </div>
-           </FullPanel>
+           <ToolBar style={style} >
+               <ToolBarGroup float="left">
+
+                   <Status status={this.props.status.ais} name="Ais"></Status>
+                   <Status status={this.props.status.nmea} name="Nmea"></Status>
+               </ToolBarGroup>
+               <ToolBarSeparator></ToolBarSeparator>
+               <ToolBarGroup float="right">
+                   <RaisedButton href="http://www.wellenvogel.de" label="AvNav React0.1" linkButton={true}></RaisedButton>
+               </ToolBarGroup>
+           </ToolBar>
        );
    }
 });
