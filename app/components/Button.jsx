@@ -3,6 +3,10 @@
  */
 
 var React=require('react');
+var FloatingActionButton=require('material-ui/lib/floating-action-button');
+var Settings=require('../stores/Settings.jsx');
+var extend=require('lodash/extend');
+
 
 module.exports=React.createClass({
     propTypes:{
@@ -10,10 +14,16 @@ module.exports=React.createClass({
         icon:       React.PropTypes.string.isRequired
     },
     render: function(){
+        var bSize=Settings.getButtonSize();
+        var styleBase={
+            width: bSize,
+            height: bSize,
+            lineHeight: bSize+"px"
+        };
+        var style=extend({},styleBase,{marginBottom:bSize*0.1});
         return(
-            <button type="button" className="avn_button" onClick={this.clickHandler}>
-                <span className={"icon-"+this.props.icon+" icon"}></span>
-            </button>
+            <FloatingActionButton style={style} iconStyle={styleBase} iconClassName={"icon-"+this.props.icon} onClick={this.clickHandler}>
+            </FloatingActionButton>
         );
     },
     clickHandler: function(event){

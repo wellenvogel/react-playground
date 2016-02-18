@@ -6,12 +6,18 @@ var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
 var Alert=require("../components/Alert.jsx").alert;
 var MapHolder=require("../nav/Map.js");
+var FullPanel=require("../components/PanelFull.jsx");
 
 MapHolder.init();
 
 var Map=React.createClass({
     render: function(){
-        return(<div className="avn_fill_panel" ref="mapdiv">
+        var style={
+            width: "100%",
+            height: "100%"
+        };
+        return(
+            <div ref="mapdiv" style={style}>
             </div>
         );
     },
@@ -38,12 +44,12 @@ module.exports=React.createClass({
             }
         };
         return (
-            <div className="avn_page">
-                <div className="avn_fill_panel">
+            <FullPanel>
+                <FullPanel>
                     <Map></Map>
-                </div>
+                </FullPanel>
                 <ButtonList buttons={this._buttons()}></ButtonList>
-            </div>
+            </FullPanel>
         );
     },
     _buttons: function () {

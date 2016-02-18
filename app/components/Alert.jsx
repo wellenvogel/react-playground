@@ -4,7 +4,6 @@
 
 var React=require('react');
 var Dialog=require('material-ui/lib/dialog');
-//var Button=require('react-bootstrap/lib/Button.js');
 var Button=require('../components/Button.jsx');
 var update = require('react-addons-update');
 var assign=require('object-assign');

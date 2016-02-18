@@ -8,7 +8,6 @@ var Location=require("../util/Location.jsx");
 var MList=require('material-ui/lib/lists/list');
 var MListItem=require('../components/MListItem.jsx');
 var Alert=require("../components/Alert.jsx").alert;
-var getMuiTheme = require('material-ui/lib/styles/getMuiTheme');
 var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');

@@ -9,9 +9,16 @@ class Settings{
          * @type {number}
          */
         this.fontBase=16;
+        /**
+         * the button size
+         * @type {number}
+         */
+        this.buttonSize=55;
         this.getFontBase.bind(this);
+        this.getButtonSize.bind(this);
     }
     getFontBase() { return this.fontBase;}
+    getButtonSize() { return this.buttonSize;}
 
 }
 

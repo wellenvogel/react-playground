@@ -3,11 +3,18 @@
  */
 var React=require('react');
 var Button=require('./Button.jsx');
+var Settings=require('../stores/Settings.jsx');
 module.exports=React.createClass({
     render: function(){
         var buttons=this.props.buttons;
+        var style={
+            position: 'absolute',
+            top:0,
+            right:0,
+            width: Settings.getButtonSize()+5
+        };
         return(
-            <div className='avn_right_panel'>
+            <div style={style}>
                 {buttons.map(function(entry) {
                         return <Button {...entry}></Button>;
                     }
