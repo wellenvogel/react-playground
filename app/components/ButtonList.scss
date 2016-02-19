@@ -1,0 +1,7 @@
+@import '~react-toolbox/lib/base';
+//we always have floating buttons...
+.button{
+  height: $unit * 5.4;
+  width: $unit * 5.4;
+  margin: $unit*0.1;
+}
