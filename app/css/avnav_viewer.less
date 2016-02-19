@@ -1,4 +1,32 @@
 
+//variables will be overwritten by properties!
+@topPanelHeight:00px;
+@bottomPanelHeight:50px;
+@aisPanelWidth:90px;
+@routeInfoPanelWidth:90px; //the real with is the max of this and the AIS panel width
+@routeDisplayWidth: 90px;
+@buttonSize: 60px;
+@centerDisplayHeight: 30px;
+@settingsFontSize: 16px;
+@routeInfoFontBase: min(max(@aisPanelWidth,@routeInfoPanelWidth),120px);
+
+@nightMode: 100px;     //fade factor for night mode - if < 100 assume night mode
+                      //we set this in px as this is the only value the js code can set
+                      //later we convert this to %
+@nightModeValue: unit(@nightMode / 100px);
+@nightModePercent: percentage(@nightModeValue);
+
+@aisNormalColor: #EBEB55;
+@aisNearestColor: #70F3AF; //rgb(112, 243, 175);
+@aisWarningColor: #FA584A; //rgb(250, 88, 74);
+
+@routeApproachingColor: #FA584A;
+
+@nightColor: rgba(252, 11, 11, 0.49);
+
+@routeColor: rgba(222, 226, 207, 1);
+
+
 
 /**
  icon font
@@ -44,4 +72,223 @@
 }
 .icon-zoom-out{
   .ourIcon("\e988");
+}
+  .nightColors() when ( @nightModePercent <100% ){
+    background-color: #000;
+    color: @nightColor;
+  }
+  .nightOPacity() when(@nightModePercent <100%){
+    opacity: @nightModeValue;
+  }
+
+
+
+  //hide some content
+
+  .hidemedia(@min:0px,@max:9999px){
+    @media (min-width:@min) and (max-width: @max){
+      display:none;
+    }
+  }
+
+  //have the border inside
+  .border-box{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+
+  html,body {
+    .nightColors();
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana,Arial,sans-serif;
+  }
+
+  .avn_panel{
+    position: absolute;
+    overflow: hidden;
+  }
+  /*	1. left panel */
+  .avn_left_panel{
+    .avn_panel();
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    //right: (@buttonSize + 10 );
+    right: 0px; //buttons "float" over content
+    overflow: hidden;
+  }
+
+  /*
+      2. left top
+  */
+
+  .avn_left_top{
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    height: @topPanelHeight;
+    background-color: #1602FC;
+    text-align: center;
+  }
+  .avn_top_content{
+    float: left;
+    line-height: ( @topPanelHeight - 2 );
+  }
+
+
+  /*
+      3. left main
+  */
+
+  .avn_main{
+    .avn_panel();
+    top: @topPanelHeight;
+    bottom: @bottomPanelHeight;
+    left: 0px;
+    right: 0px;
+
+  }
+  .avn_scrollable{
+    overflow: auto;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+  }
+
+/*
+  4. bottom line  - see .avn_leftBottom
+*/
+.avn_left_bottom {
+  .avn_panel();
+  bottom: 0px;
+  height: @bottomPanelHeight;
+  left: 0px;
+  right: 0px;
+  background-color: fade(rgb(222, 226, 207), @nightModePercent);
+}
+
+.avn_right_panel {
+  .avn_panel();
+  top: 0px;
+  right: 0px;
+  width: ( @buttonSize * 1.1 );
+}
+
+.avn_fill_panel{
+  .avn_panel();
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+  .avn_status_widget{
+    background-color: fade(#C7C7AE,@nightModePercent);
+    /* padding-left: 8px; */
+    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    margin-left: 2px;
+    border-radius: 3px;
+    font-size: (@bottomPanelHeight / 4.5);
+    line-height: (@bottomPanelHeight / 4);
+  }
+
+.avn_status_image{
+  width: 24px;
+  height: 24px;
+}
+
+.avn_status_image_small{
+  width: ( @bottomPanelHeight / 2.5 );
+  height: ( @bottomPanelHeight / 2.5 );
+  vertical-align: middle;
+}
+.avn_mainpage_image{
+  width: ( @bottomPanelHeight / 1.5 );
+}
+
+.avn_status_name{
+  padding-left: 3px;
+}
+.avn_status_info{
+  padding-left: 3px;
+}
+  /*-------------------------------------------------------------
+     buttons
+  -------------------------------------------------------------*/
+
+  .avn_button_base(@bWitdh:@buttonSize,@bSize:@buttonSize){
+    width: @bWitdh;
+    height: @bSize;
+    margin: 3px 3px 3px 3px;
+    border-radius: 50%;
+    border: 1px solid #D3D3D3;
+    //position: relative;
+    cursor: pointer;
+    outline: none;
+    font-size: ( @buttonSize / 2.5);
+    color: white;
+    .nightColors();
+    background: fade(#9E1E1E,@nightModePercent);
+    text-align: center;
+    padding: 0px; //this ensures icons being centered on mobile safari
+
+  }
+  button.avn_button{
+    .avn_button_base;
+  }
+
+  .avn_button:active{
+    border: 2px solid #6B6B6B;
+  }
+
+  button.avn_toggleButton{
+    .avn_button_base;
+  }
+
+  button.avn_buttonActive{
+    border: 4px solid #1DB81D !important;
+  }
+
+  button.avn_buttonActiveError{
+    border: 4px solid #EC420C !important;
+  }
+
+  button.avn_buttonInactive{
+    border: 4px solid fade(#E6E6E6,@nightModePercent) !important;
+  }
+
+
+  .avn_button_icon_base(@icon,@innerWidth: ( @buttonSize * 30 / 60 ),@size: @buttonSize ){
+    .avn_button_base(@size,@size);
+    background-image: url(@icon);
+    background-position: center center;
+    background-size: @innerWidth @innerWidth;
+    background-repeat: no-repeat;
+    text-decoration: none;
+  }
+
+  .avn_button_icon_base_toggle(@icon,@innerWidth: ( @buttonSize * 30 / 60 ) ){
+    .avn_button_icon_base(@icon,@innerWidth);
+  }
+
+
+/** from react-bootstrap
+**/
+
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
 }
