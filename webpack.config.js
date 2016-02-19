@@ -4,6 +4,11 @@ var CopyWebpackPlugin= require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var materialIcons=__dirname+"/node_modules/material-design-icons/iconfont";
 
+var cssLoaderQuery="&localIdentName=[path][name]---[local]---[hash:base64:5]";
+if (process.env.NODE_ENV === 'production') {
+    cssLoaderQuery="";
+}
+
 var copyList=[
     {
         from: __dirname+"/app/css/fonts",
@@ -59,7 +64,7 @@ module.exports = {
             {
                 test: /(\.scss)$/,
                 exclude: /commons\.scss$/,
-                loader: ExtractTextPlugin.extract('style-loader','css?modules&localIdentName=[path][name]---[local]---[hash:base64:5]!sass!toolbox')
+                loader: ExtractTextPlugin.extract('style-loader','css?modules&'+cssLoaderQuery+'!sass!toolbox')
             },
             {
                 test: /commons\.scss$/,

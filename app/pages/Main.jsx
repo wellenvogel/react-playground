@@ -127,8 +127,8 @@ module.exports=React.createClass({
                 onClick: self._onStatsClick
             },
             {
-                muiIcon: "settings",
-                //icon: "cog",
+                //muiIcon: "settings",
+                icon: "cog",
                 onClick: self._onSettingsClick
             }
         ];

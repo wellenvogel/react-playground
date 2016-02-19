@@ -1,0 +1,3 @@
+blackberry:
+AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+
+

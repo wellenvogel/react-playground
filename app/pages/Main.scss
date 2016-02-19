@@ -4,4 +4,15 @@
   border-bottom: 1px solid;
   border-bottom-color: $color-divider;
   min-height: 6 * $unit;
+  display: flex;
+  display: -webkit-flex;
+}
+//WA for old blackberry...
+.chartListItem > img {
+  display: inline;
+  vertical-align: middle;
+}
+
+.chartListItem > span > span {
+  display: inline;
 }

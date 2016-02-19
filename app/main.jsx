@@ -30,8 +30,10 @@ require('./css/commons.scss');
 
 function render(state) {
     var toRender=
-        <TApp>
-            <App state={state}></App>
+        <TApp >
+            <div style={{position: "fixed",top: 0,bottom:0,left:0,right:0}}>
+                <App state={state}></App>
+            </div>
         </TApp>;
     React.render(
         toRender,
