@@ -3,11 +3,21 @@
  */
 
 var React=require('react');
-var Dialog=require('react-toolbox/lib/dialog').default;
-var Button=require('../components/Button.jsx');
+var Dialog=require('react-modal');
+var Button=require('muicss/lib/react/button');
 var update = require('react-addons-update');
 var assign=require('object-assign');
 
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
 var Alert=React.createClass({
     ok: function(){
         if (this.props.close){
@@ -26,16 +36,12 @@ var Alert=React.createClass({
         }
     },
     render: function(){
-        var actions = [];
-        if (this.props.cancelIcon) {
-            actions.push({label: "Cancel", onClick: this.cancel});
-        }
-        actions.push({ label: "OK", onClick: this.ok });
-
         return(
-            //we set an unknown "special" type here to avoid setting a fixed width...
-            <Dialog active={true} title={this.props.title} actions={actions} type="special">
+            <Dialog isOpen={true}  style={customStyles}>
+                <h3>{this.props.title}</h3>
                     {this.props.body}
+                    {this.props.cancelIcon?<Button onClick={this.cancel}>Cancel</Button>:undefined}
+                    <Button onClick={this.ok}>OK</Button>
             </Dialog>
         );
     },

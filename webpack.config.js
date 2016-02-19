@@ -21,6 +21,10 @@ var copyList=[
     {
         from: materialIcons,
         to: "css/fonts"
+    },
+    {
+        from: __dirname+"/node_modules/muicss/lib/css/mui.min.css",
+        to: "css"
     }
 
 
@@ -64,11 +68,11 @@ module.exports = {
             {
                 test: /(\.scss)$/,
                 exclude: /commons\.scss$/,
-                loader: ExtractTextPlugin.extract('style-loader','css?modules&'+cssLoaderQuery+'!sass!toolbox')
+                loader: ExtractTextPlugin.extract('style-loader','css?modules&'+cssLoaderQuery+'!sass')
             },
             {
                 test: /commons\.scss$/,
-                loader: ExtractTextPlugin.extract('style-loader','css!sass!toolbox')
+                loader: ExtractTextPlugin.extract('style-loader','css!sass')
             },
 
             {
@@ -98,8 +102,7 @@ module.exports = {
         new CopyWebpackPlugin(copyList),
         new ExtractTextPlugin("css/[name].css",{ allChunks: true })
     ],
-    devtool:"eval",
-    toolbox: {theme: 'app/css/theme.scss'}
+    devtool:"eval"
 };
 
 function getEntrySources(sources) {

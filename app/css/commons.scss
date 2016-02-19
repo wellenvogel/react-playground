@@ -2,3 +2,13 @@
   height: initial;
   font-size: inherit;
 }
+
+//from leaf
+a.list-item, span.list-item, div.list-item, strong.list-item {
+  /* color: #424242; */
+  display: block;
+  width: 100%;
+  position: relative;
+  padding: 10px 10px;
+
+}

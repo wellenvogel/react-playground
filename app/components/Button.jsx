@@ -3,7 +3,7 @@
  */
 
 var React=require('react');
-var TButton=require('react-toolbox/lib/button').Button;
+var TButton=require('muicss/lib/react/button');
 var Settings=require('../stores/Settings.jsx');
 var extend=require('lodash/extend');
 
@@ -18,8 +18,9 @@ module.exports=React.createClass({
     },
     render: function(){
         return(
-            <TButton className={style.button} onClick={this.clickHandler} floating={true} accent={true} icon={this.props.muiIcon?this.props.muiIcon:undefined}>
+            <TButton className={style.button} onClick={this.clickHandler} variant="fab">
                 {this.props.icon?<span className={"icon-"+this.props.icon}></span>:undefined }
+                {this.props.muiIcon?<i className="material-icons">{this.props.muiIcon}</i>:undefined}
             </TButton>
         );
     },

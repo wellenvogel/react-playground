@@ -5,8 +5,6 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
-var MList=require('react-toolbox/lib/list').List;
-var MListItem=require('react-toolbox/lib/list').ListItem;
 var Alert=require("../components/Alert.jsx").alert;
 var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
@@ -22,11 +20,15 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <MListItem className={style.chartListItem}
-                onClick={this._onChartSelected}
-                caption={this.props.data.name}
-                avatar={imageUrl}          >
-            </MListItem>
+            <li className={style.chartListItem+" list-item"}
+                onClick={this._onChartSelected}>
+                    <div>
+                    <img className="mui--pull-left avn_mainpage_image list-item" src={imageUrl}></img>
+                    <span className="list-item">
+                    {this.props.data.name}
+                    </span>
+                    </div>
+            </li>
         );
     },
     _onChartSelected: function () {
@@ -40,11 +42,11 @@ var ChartList=React.createClass({
         var items=this.props.items;
         return(
             <FullPanel scrollable={true}>
-                <MList >
+                <ul className="mui-list--unstyled">
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>
                     })}
-                </MList>
+                </ul>
             </FullPanel>
         )
     }

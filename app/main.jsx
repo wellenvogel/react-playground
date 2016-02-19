@@ -10,7 +10,6 @@ import App from "./App.jsx";
 import Location from "./util/Location.jsx";
 import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
-import TApp from 'react-toolbox/lib/app/App';
 import 'babel-polyfill';
 import './css/avnav_viewer.less';
 
@@ -24,17 +23,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 //getcommon.scss without module stuff
-require('react-toolbox/lib/commons.scss');
 require('./css/commons.scss');
 
 
 function render(state) {
-    var toRender=
-        <TApp >
-            <div style={{position: "fixed",top: 0,bottom:0,left:0,right:0}}>
-                <App state={state}></App>
-            </div>
-        </TApp>;
+    var toRender= <App state={state}></App>;
     React.render(
         toRender,
         document.getElementById('mount-point')
@@ -47,7 +40,7 @@ var unlisten=Location.listen(location => {
         query: location.query,
         state: location.state
     });
-    if (! currentState.state) currentState.state={}
+    if (! currentState.state) currentState.state={};
     if (! currentState.state.page) currentState.state.page="main";
     render(currentState.state);
 });
