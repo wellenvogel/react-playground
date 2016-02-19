@@ -10,10 +10,12 @@ import App from "./App.jsx";
 import Location from "./util/Location.jsx";
 import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
+import TApp from 'react-toolbox/lib/app/App';
 import 'babel-polyfill';
 import './css/avnav_viewer.less';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
 
 //Needed for onTouchTap
 //Can go away when react 1.0 release
@@ -21,17 +23,18 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 //https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
-/*
-if (! window.Promise){
-    window.Promise=require('es6-promise-polyfill').Promise;
-}
-*/
-
+//getcommon.scss without module stuff
+require('react-toolbox/lib/commons.scss');
+require('./css/commons.scss');
 
 
 function render(state) {
+    var toRender=
+        <TApp>
+            <App state={state}></App>
+        </TApp>;
     React.render(
-        <App state={state}/>,
+        toRender,
         document.getElementById('mount-point')
     );
 }

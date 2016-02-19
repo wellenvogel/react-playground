@@ -5,16 +5,15 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var Location=require("../util/Location.jsx");
-var MList=require('material-ui/lib/lists/list');
-var MListItem=require('../components/MListItem.jsx');
+var MList=require('react-toolbox/lib/list').List;
+var MListItem=require('react-toolbox/lib/list').ListItem;
 var Alert=require("../components/Alert.jsx").alert;
 var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
-var ToolBar=require('material-ui/lib/toolbar').Toolbar;
-var ToolBarGroup=require('material-ui/lib/toolbar').ToolbarGroup;
-var ToolBarSeparator=require('material-ui/lib/toolbar').ToolbarSeparator;
-var RaisedButton=require("material-ui/lib/raised-button");
+
+var style=require('./Main.scss');
+
 
 var ListItem = React.createClass({
     render: function () {
@@ -23,9 +22,10 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <MListItem borderBottom={true} onClick={this._onChartSelected}
-                       leftIcon={<img  src={imageUrl}></img>}
-                       primaryText={this.props.data.name}>
+            <MListItem className={style.chartListItem}
+                onClick={this._onChartSelected}
+                caption={this.props.data.name}
+                avatar={imageUrl}          >
             </MListItem>
         );
     },
@@ -57,38 +57,12 @@ var statusIcons= {
     green:   require("../css/images/GreenBubble40.png"),
     red: require("../css/images/RedBubble40.png")
 };
-
-//factors to derive from basic fontsize
-const statusFontFactor=1.0/1.5;
-const statusLineHeightFactor=1.0/1.3;
-const widgetTopBottomMargin=2;
-const widgetTopBottomPadding=2;
-var statusWidgetStyle={
-    backgroundColor: '#C7C7AE', //TODO: color overwrite from theme
-    paddingRight: 8,
-    paddingBottom: widgetTopBottomPadding,
-    paddingTop: widgetTopBottomPadding,
-    marginBottom: widgetTopBottomMargin,
-    marginTop: widgetTopBottomMargin,
-    marginLeft: 2,
-    borderRadius: 3,
-};
 var Status=React.createClass({
     render: function(){
-        var fb=Settings.getFontBase();
-        var finalStyle=extend({},this.props.style,statusWidgetStyle,{
-            fontSize:  fb*statusFontFactor,
-            //lineHeight: fb*statusLineHeightFactor
-        });
-        var imageStyle={
-            height: fb*statusFontFactor*2,
-            width:  fb*statusFontFactor*2,
-            verticalAlign: 'middle'
-        };
         return(
-            <div style={finalStyle}>
-                <img style={imageStyle} src={this.getStatusImage()}/>
-                {this.props.name}&nbsp;<span >{this.props.status.text}</span>
+            <div className='avn_status_widget'>
+                <img className='avn_status_image_small' src={this.getStatusImage()}/>
+                {this.props.name}&nbsp;<span className="">{this.props.status.text}</span>
             </div>
 
         );
@@ -104,22 +78,16 @@ var Status=React.createClass({
 
 var BottomPanel=React.createClass({
    render: function(){
-       var style=extend({},this.props.style,{
-           position: 'absolute',
-           bottom: 0
-       });
        return (
-           <ToolBar style={style} >
-               <ToolBarGroup float="left">
-
-                   <Status status={this.props.status.ais} name="Ais"></Status>
-                   <Status status={this.props.status.nmea} name="Nmea"></Status>
-               </ToolBarGroup>
-               <ToolBarSeparator></ToolBarSeparator>
-               <ToolBarGroup float="right">
-                   <RaisedButton href="http://www.wellenvogel.de" label="AvNav React0.1" linkButton={true}></RaisedButton>
-               </ToolBarGroup>
-           </ToolBar>
+           <div className="avn_left_bottom">
+                   <div className="pull-left">
+                       <Status status={this.props.status.ais} name="Ais"></Status>
+                       <Status status={this.props.status.nmea} name="Nmea"></Status>
+                   </div>
+                   <div className="pull-right">
+                       <a href="http://www.wellenvogel.de">AvNav React0.1</a>
+                   </div>
+           </div>
        );
    }
 });
@@ -139,13 +107,14 @@ module.exports=React.createClass({
         if (this.state.list && this.state.list.length){
             content=<ChartList items={this.state.list}></ChartList>;
         }
-        var bottomHeight=2*(Settings.getFontBase()*statusFontFactor*2+widgetTopBottomMargin*2+widgetTopBottomPadding*2); //image height + paddings, margings
         return (
             <FullPanel>
-                    <FullPanel style={{bottom:bottomHeight}}>
+                <div className="avn_left_panel">
+                    <FullPanel scrollable={true}>
                         {content}
                     </FullPanel>
-                    <BottomPanel status={status} style={{height:bottomHeight}}></BottomPanel>
+                    <BottomPanel status={status}></BottomPanel>
+                </div>
                 <ButtonList buttons={this.buttons()}></ButtonList>
             </FullPanel>
         );
@@ -158,7 +127,8 @@ module.exports=React.createClass({
                 onClick: self._onStatsClick
             },
             {
-                icon: "cog",
+                muiIcon: "settings",
+                //icon: "cog",
                 onClick: self._onSettingsClick
             }
         ];

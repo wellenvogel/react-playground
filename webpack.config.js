@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin= require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var ratchet=__dirname+"/node_modules/goratchet/dist";
+var materialIcons=__dirname+"/node_modules/material-design-icons/iconfont";
 
 var copyList=[
     {
@@ -12,6 +12,10 @@ var copyList=[
     {
         from: "index.html",
         to: "index.html"
+    },
+    {
+        from: materialIcons,
+        to: "css/fonts"
     }
 
 
@@ -28,6 +32,10 @@ module.exports = {
     //entry: './app/main.jsx',
     publicPath: 'http://localhost:8081/test',
     output: { path: __dirname+"/build", filename: 'bundle.js' },
+    //for react-toolbox
+    resolve: {
+        extensions: ['', '.jsx', '.scss', '.js', '.json']
+    },
     module: {
         loaders: [
             {
@@ -47,6 +55,15 @@ module.exports = {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract("style-loader","css-loader!less-loader")
 
+            },
+            {
+                test: /(\.scss)$/,
+                exclude: /commons\.scss$/,
+                loader: ExtractTextPlugin.extract('style-loader','css?modules&localIdentName=[path][name]---[local]---[hash:base64:5]!sass!toolbox')
+            },
+            {
+                test: /commons\.scss$/,
+                loader: ExtractTextPlugin.extract('style-loader','css!sass!toolbox')
             },
 
             {
@@ -74,9 +91,10 @@ module.exports = {
     plugins:[
 
         new CopyWebpackPlugin(copyList),
-        new ExtractTextPlugin("css/[name].css")
+        new ExtractTextPlugin("css/[name].css",{ allChunks: true })
     ],
-    devtool:"eval"
+    devtool:"eval",
+    toolbox: {theme: 'app/css/theme.scss'}
 };
 
 function getEntrySources(sources) {

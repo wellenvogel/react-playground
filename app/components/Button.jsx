@@ -3,27 +3,24 @@
  */
 
 var React=require('react');
-var FloatingActionButton=require('material-ui/lib/floating-action-button');
+var TButton=require('react-toolbox/lib/button').Button;
 var Settings=require('../stores/Settings.jsx');
 var extend=require('lodash/extend');
+
+var style=require('./Button.scss');
 
 
 module.exports=React.createClass({
     propTypes:{
         onClick:    React.PropTypes.func.isRequired,
-        icon:       React.PropTypes.string.isRequired
+        icon:       React.PropTypes.string,
+        muiIcon:    React.PropTypes.string
     },
     render: function(){
-        var bSize=Settings.getButtonSize();
-        var styleBase={
-            width: bSize,
-            height: bSize,
-            lineHeight: bSize+"px"
-        };
-        var style=extend({},styleBase,{marginBottom:bSize*0.1});
         return(
-            <FloatingActionButton style={style} iconStyle={styleBase} iconClassName={"icon-"+this.props.icon} onClick={this.clickHandler}>
-            </FloatingActionButton>
+            <TButton className={style.button} onClick={this.clickHandler} floating={true} accent={true} icon={this.props.muiIcon?this.props.muiIcon:undefined}>
+                {this.props.icon?<span className={"icon-"+this.props.icon}></span>:undefined }
+            </TButton>
         );
     },
     clickHandler: function(event){

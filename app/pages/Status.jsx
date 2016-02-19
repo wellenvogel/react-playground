@@ -6,10 +6,12 @@ var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var FullPanel=require("../components/PanelFull.jsx");
 var Location=require("../util/Location.jsx");
-var MList=require('material-ui/lib/lists/list');
-var MListItem=require('../components/MListItem.jsx');
+var MList=require('react-toolbox/lib/list').List;
+var MListItem=require('react-toolbox/lib/list').ListItem;
+var MListSubHeader=require('react-toolbox/lib/list').ListSubHeader;
+var MListDivider=require('react-toolbox/lib/list').ListDivider;
 var Alert=require("../components/Alert.jsx").alert;
-
+var style=require('./Status.scss');
 
 var statusIcons= {
     INACTIVE: require("../css/images/GreyBubble40.png"),
@@ -20,18 +22,14 @@ var statusIcons= {
 };
 
 var WorkerStatus=React.createClass({
-    style:{
-      marginLeft:7
-    },
     render: function(){
         var item=this.props.item;
         var icon=statusIcons[item.status||"INACTIVE"]||statusIcons.INACTIVE;
         return(
-            <MListItem
-                style={this.style}
-                innerDivStyle={{paddingTop:4,paddingBottom:4}}
-                leftIcon={<img src={icon} style={{marginTop:0}}></img>}
-                primaryText={item.name+" "+item.info}>
+            <MListItem className={style.workerStatus}
+                avatar={icon}
+                caption={item.name}
+                legend={item.info}>
             </MListItem>
         );
     }
@@ -41,19 +39,16 @@ var StatusEntry=React.createClass({
         var base=this.props.status.configname;
         var hasSub=this.props.status.info.items.length?true:false;
         return(
-            <MListItem
-                borderBottom={true}
-                key={base}
-                primaryText={base}
-                initiallyOpen={hasSub}
-                autoGenerateNestedIndicator= {false}
-                nestedItems={[
-                    this.props.status.info.items.map(function(entry){
-                        return (<WorkerStatus key={base+entry.name} item={entry}>
-                        </WorkerStatus>);
-                    })
-                ]}>
-            </MListItem>
+            <div>
+                <MListSubHeader caption={base}></MListSubHeader>
+                { this.props.status.info.items.map(function (entry) {
+                    return (<WorkerStatus key={base+entry.name} item={entry}>
+                    </WorkerStatus>);
+                })
+                }
+                <MListDivider/>
+
+            </div>
         );
     }
 });
@@ -69,7 +64,7 @@ module.exports=React.createClass({
         return (
         <FullPanel>
             <FullPanel scrollable={true}>
-                    <h1>Server Status</h1>
+                    <h3>Server Status</h3>
                     <MList >
                         {this.state.list.map(function(entry){
                             return <StatusEntry status={entry}></StatusEntry>

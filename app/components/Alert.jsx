@@ -3,7 +3,7 @@
  */
 
 var React=require('react');
-var Dialog=require('material-ui/lib/dialog');
+var Dialog=require('react-toolbox/lib/dialog').default;
 var Button=require('../components/Button.jsx');
 var update = require('react-addons-update');
 var assign=require('object-assign');
@@ -26,16 +26,15 @@ var Alert=React.createClass({
         }
     },
     render: function(){
-        var cancelBtn=null;
+        var actions = [];
         if (this.props.cancelIcon) {
-            cancelBtn=<Button onClick={this.cancel} icon={this.props.cancelIcon}></Button>;
+            actions.push({label: "Cancel", onClick: this.cancel});
         }
-        const buttons=[
-            {cancelBtn},
-            <Button onClick={this.ok} icon={this.props.okIcon}></Button>
-        ];
+        actions.push({ label: "OK", onClick: this.ok });
+
         return(
-            <Dialog open={true} title={this.props.title} actions={buttons}>
+            //we set an unknown "special" type here to avoid setting a fixed width...
+            <Dialog active={true} title={this.props.title} actions={actions} type="special">
                     {this.props.body}
             </Dialog>
         );

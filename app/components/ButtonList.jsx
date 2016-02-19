@@ -3,18 +3,12 @@
  */
 var React=require('react');
 var Button=require('./Button.jsx');
-var Settings=require('../stores/Settings.jsx');
+var style=require('./ButtonList.scss');
 module.exports=React.createClass({
     render: function(){
         var buttons=this.props.buttons;
-        var style={
-            position: 'absolute',
-            top:0,
-            right:0,
-            width: Settings.getButtonSize()+5
-        };
         return(
-            <div style={style}>
+            <div className={style.buttonList}>
                 {buttons.map(function(entry) {
                         return <Button {...entry}></Button>;
                     }

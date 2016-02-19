@@ -1,0 +1,7 @@
+@import '../css/base';
+
+.chartListItem{
+  border-bottom: 1px solid;
+  border-bottom-color: $color-divider;
+  min-height: 6 * $unit;
+}

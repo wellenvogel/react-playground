@@ -4,7 +4,7 @@
  */
 
 var React=require('react');
-var ListItem=require('material-ui/lib/lists/list-item');
+var ListItem=require('react-toolbox/lib/list/ListItem.js');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
 
@@ -13,23 +13,11 @@ module.exports=React.createClass({
     propTypes: {
         borderBottom: React.PropTypes.bool
     },
-    contextTypes: {
-        muiTheme: React.PropTypes.object
-    },
-    getInitialState: function () {
-        return({
-            muiTheme: this.context.muiTheme||getMuiTheme.default
-        });
-    },
     render: function(){
-        var style={
-            fontSize: Settings.getFontBase()
-        };
-        var finalStyle=extend({},this.props.style,style);
-        var item=<ListItem {...this.props} style={finalStyle}>{this.props.children}</ListItem>;
+        var item=<div {...this.props}>{this.props.children}</div>;
         if (this.props.borderBottom) {
             return (
-                <div style={{borderBottom: '1px solid '+this.state.muiTheme.tableRow.borderColor}}>
+                <div style={{borderBottom: '1px solid grey'}}>
                     {item}
                 </div>
             );
