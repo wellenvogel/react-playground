@@ -23,7 +23,11 @@ var copyList=[
         to: "css/fonts"
     },
     {
-        from: __dirname+"/node_modules/muicss/lib/css/mui.min.css",
+        from: "lib/material-framework-gh-pages/dist/material.min.js",
+        to: 'libs'
+    },
+    {
+        from: "lib/material-framework-gh-pages/dist/material.min.css",
         to: "css"
     }
 

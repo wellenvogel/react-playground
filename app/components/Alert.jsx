@@ -4,7 +4,6 @@
 
 var React=require('react');
 var Dialog=require('react-modal');
-var Button=require('muicss/lib/react/button');
 var update = require('react-addons-update');
 var assign=require('object-assign');
 
@@ -40,8 +39,8 @@ var Alert=React.createClass({
             <Dialog isOpen={true}  style={customStyles}>
                 <h3>{this.props.title}</h3>
                     {this.props.body}
-                    {this.props.cancelIcon?<Button onClick={this.cancel}>Cancel</Button>:undefined}
-                    <Button onClick={this.ok}>OK</Button>
+                    {this.props.cancelIcon?<button className="button" onClick={this.cancel}>Cancel</button>:undefined}
+                    <button className="button" onClick={this.ok}>OK</button>
             </Dialog>
         );
     },

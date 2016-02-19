@@ -20,11 +20,11 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <li className={style.chartListItem+" list-item"}
-                onClick={this._onChartSelected}>
-                    <div>
-                    <img className="mui--pull-left avn_mainpage_image list-item" src={imageUrl}></img>
-                    <span className="list-item">
+            <li className={style.chartListItem}
+                onClick={this._onChartSelected} ripple>
+                    <div className={style.chartListInner}>
+                    <img className={style.chartListItems+" item-icon"} src={imageUrl}></img>
+                    <span className={style.chartListItems+" item-text"}>
                     {this.props.data.name}
                     </span>
                     </div>
@@ -42,7 +42,7 @@ var ChartList=React.createClass({
         var items=this.props.items;
         return(
             <FullPanel scrollable={true}>
-                <ul className="mui-list--unstyled">
+                <ul className="list">
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>
                     })}

@@ -3,5 +3,11 @@
 .chartListItem{
   border-bottom: 1px solid;
   border-bottom-color: grey;
-  line-height: 6 * $unit;
+}
+.chartListInner{
+  margin: 1 * $unit;
+}
+
+.chartListItems{
+  vertical-align: middle !important;
 }

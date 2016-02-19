@@ -3,10 +3,6 @@
  */
 
 var React=require('react');
-var TButton=require('muicss/lib/react/button');
-var Settings=require('../stores/Settings.jsx');
-var extend=require('lodash/extend');
-
 var style=require('./Button.scss');
 
 
@@ -18,10 +14,10 @@ module.exports=React.createClass({
     },
     render: function(){
         return(
-            <TButton className={style.button} onClick={this.clickHandler} variant="fab">
+            <button className={style.button + " icon-button fab bg-red-500 color-white"} onClick={this.clickHandler} >
                 {this.props.icon?<span className={"icon-"+this.props.icon}></span>:undefined }
                 {this.props.muiIcon?<i className="material-icons">{this.props.muiIcon}</i>:undefined}
-            </TButton>
+            </button>
         );
     },
     clickHandler: function(event){
