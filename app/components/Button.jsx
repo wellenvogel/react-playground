@@ -3,7 +3,8 @@
  */
 
 var React=require('react');
-var style=require('./Button.scss');
+var csstyle=require('./Button.scss');
+var Settings=require("../stores/Settings.jsx");
 
 
 module.exports=React.createClass({
@@ -13,8 +14,11 @@ module.exports=React.createClass({
         muiIcon:    React.PropTypes.string
     },
     render: function(){
+        var style={
+            fontSize: Settings.getButtonFontSize()
+        }
         return(
-            <button className={style.button + " icon-button fab bg-red-500 color-white"} onClick={this.clickHandler} >
+            <button className={csstyle.button + " fab bg-red-500 color-white"} onClick={this.clickHandler} style={style}>
                 {this.props.icon?<span className={"icon-"+this.props.icon}></span>:undefined }
                 {this.props.muiIcon?<i className="material-icons">{this.props.muiIcon}</i>:undefined}
             </button>

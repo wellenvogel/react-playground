@@ -3,10 +3,17 @@
  */
 var React=require('react');
 var Button=require('./Button.jsx');
-var style=require('./ButtonList.scss');
+var stclasses=require('./ButtonList.scss');
+var Settings=require("../stores/Settings.jsx");
+/**
+ * the button bar
+ * properties
+ *   buttons the list of button objects, each: onClick, icon
+ *   top: leave room for the top toolbar
+ */
 module.exports=React.createClass({
     propTypes:{
-        float: React.PropTypes.bool,
+        top: React.PropTypes.bool,
         button: React.PropTypes.array
     },
     getDefaultProps(){
@@ -16,10 +23,13 @@ module.exports=React.createClass({
     },
     render: function(){
         var buttons=this.props.buttons;
-        var cl=this.props.float?style.buttonListFloat:style.buttonList;
-        cl+=" avFlexColumn";
+        var cl=stclasses.buttonListFloat;
+        var style={
+          width: Settings.getButtonListWidth()
+        };
+        if (this.props.top) style.top=Settings.getToolBarHeight();
         return(
-            <div className={cl} {...this.props}>
+            <div className={cl} {...this.props} style={style}>
                 {buttons.map(function(entry) {
                         return <Button {...entry}></Button>;
                     }

@@ -11,7 +11,7 @@ var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
 var Page=require("../components/Page.jsx");
 
-var style=require('./Main.scss');
+var csstyle=require('./Main.scss');
 
 
 var ListItem = React.createClass({
@@ -21,11 +21,11 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <li className={style.chartListItem + " section"}
+            <li className={csstyle.chartListItem + " section"}
                 onClick={this._onChartSelected} ripple>
-                    <div className={style.chartListInner }>
-                    <img className={style.chartListItems+" item-icon"} src={imageUrl}></img>
-                    <span className={style.chartListItems+" item-text"}>
+                    <div className={csstyle.chartListInner }>
+                    <img className={csstyle.chartListItems+" item-icon"} src={imageUrl}></img>
+                    <span className={csstyle.chartListItems+" item-text"}>
                     {this.props.data.name}
                     </span>
                     </div>
@@ -81,13 +81,18 @@ var Status=React.createClass({
 
 var BottomPanel=React.createClass({
    render: function(){
+       var style={
+           height: Settings.getBottomPanelHeight(),
+           right: Settings.getButtonListWidth()
+       };
        return (
-           <div >
-                   <div className="pull-left">
+
+           <div style={style} className={csstyle.bottomPanel}>
+                   <div className="avLeft">
                        <Status status={this.props.status.ais} name="Ais"></Status>
                        <Status status={this.props.status.nmea} name="Nmea"></Status>
                    </div>
-                   <div className="pull-right">
+                   <div className="avRight">
                        <a href="http://www.wellenvogel.de">AvNav React0.1</a>
                    </div>
            </div>
@@ -112,17 +117,11 @@ module.exports=React.createClass({
         }
         return (
             <Page>
-                <div className="avFlexRow">
-                    <div className="avFlexColumn avFlexGrow">
-                        <FullPanel scrollable={true}>
+                        <FullPanel scrollable bottom buttons>
                             {content}
                         </FullPanel>
                         <BottomPanel status={status}></BottomPanel>
-                    </div>
-                    <div>
                         <ButtonList buttons={this.buttons()}></ButtonList>
-                    </div>
-                </div>
             </Page>
         );
     },

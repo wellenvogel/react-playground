@@ -12,6 +12,7 @@ import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
 import 'babel-polyfill';
 import './css/avnav_viewer.less';
+const Settings=require('./stores/Settings.jsx');
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -28,6 +29,8 @@ var md = new Material();
 
 
 function render(state) {
+    document.documentElement.style.fontSize=Settings.getFontBase()+"px";
+    document.body.style.fontSize=Settings.getFontBase()+"px";
     var toRender= <App state={state}></App>;
     React.render(
         toRender,

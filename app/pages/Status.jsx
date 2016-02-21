@@ -73,18 +73,16 @@ module.exports=React.createClass({
 		            <button className="icon-button"><i className="material-icons">star</i></button>
 	            </span>
             </div>
-            <div className="avFlexRow">
-                <FullPanel scrollable={true} className="panelMargin">
-                    <ul className={style.topListStyle}>
-                        {this.state.list.map(function (entry) {
-                            return <StatusEntry status={entry}></StatusEntry>
-                        })}
-                    </ul>
-                </FullPanel>
-                <div>
-                    <ButtonList buttons={this._buttons()} style={{top:56}}></ButtonList>
-                </div>
-            </div>
+            <FullPanel scrollable={true} buttons top className="panelMargin">
+                <ul className={style.topListStyle}>
+                    {this.state.list.map(function (entry) {
+                        return <StatusEntry status={entry}></StatusEntry>
+                    })}
+                </ul>
+            </FullPanel>
+            <ButtonList buttons={this._buttons()} top></ButtonList>
+
+
         </Page>);
     },
     componentDidMount: function(x){

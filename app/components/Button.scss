@@ -1,7 +1,6 @@
 @import '../css/base';
 //we always have floating buttons...
 .button{
-  margin: $unit*0.1;
-  font-size: $unit *2.6;
+  margin: 0.1em;
   display: block !important; //ensure that we have buttons in a column...
 }

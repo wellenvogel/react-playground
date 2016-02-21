@@ -30,6 +30,7 @@ a.list-item, span.list-item, div.list-item, strong.list-item {
   margin: 1.25rem;
 }
 
+
 .avFlexGrow{
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -62,4 +63,11 @@ a.list-item, span.list-item, div.list-item, strong.list-item {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+}
+
+.avLeft{
+  float: left;
+}
+.avRight{
+  float: right;
 }
