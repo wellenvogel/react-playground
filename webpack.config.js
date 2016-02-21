@@ -27,8 +27,8 @@ var copyList=[
         to: 'libs'
     },
     {
-        from: "lib/material-framework-gh-pages/dist/material.min.css",
-        to: "css"
+        from: "lib/material-framework-gh-pages/css/material.css",
+        to: "css/material.min.css"
     }
 
 

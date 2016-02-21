@@ -6,10 +6,6 @@ var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var FullPanel=require("../components/PanelFull.jsx");
 var Location=require("../util/Location.jsx");
-var MList=require('react-toolbox/lib/list').List;
-var MListItem=require('react-toolbox/lib/list').ListItem;
-var MListSubHeader=require('react-toolbox/lib/list').ListSubHeader;
-var MListDivider=require('react-toolbox/lib/list').ListDivider;
 var Alert=require("../components/Alert.jsx").alert;
 var style=require('./Status.scss');
 
@@ -26,11 +22,13 @@ var WorkerStatus=React.createClass({
         var item=this.props.item;
         var icon=statusIcons[item.status||"INACTIVE"]||statusIcons.INACTIVE;
         return(
-            <MListItem className={style.workerStatus}
-                avatar={icon}
-                caption={item.name}
-                legend={item.info}>
-            </MListItem>
+            <li className={style.workerStatus}>
+                <img className="item-icon" src={icon}></img>
+                <div className="item-text">
+                    <span >{item.name}</span>
+                    <span className="secondary-text">{item.info}</span>
+                </div>
+            </li>
         );
     }
 });
@@ -39,16 +37,17 @@ var StatusEntry=React.createClass({
         var base=this.props.status.configname;
         var hasSub=this.props.status.info.items.length?true:false;
         return(
-            <div>
-                <MListSubHeader caption={base}></MListSubHeader>
-                { this.props.status.info.items.map(function (entry) {
-                    return (<WorkerStatus key={base+entry.name} item={entry}>
-                    </WorkerStatus>);
-                })
-                }
-                <MListDivider/>
 
-            </div>
+            <li className="section">
+                <div className="item-text">{base}</div>
+                <ul className="list">
+                    { this.props.status.info.items.map(function (entry) {
+                        return (<WorkerStatus key={base+entry.name} item={entry}>
+                        </WorkerStatus>);
+                    })
+                    }
+                </ul>
+            </li>
         );
     }
 });
@@ -63,13 +62,13 @@ module.exports=React.createClass({
     render: function(){
         return (
         <FullPanel>
-            <FullPanel scrollable={true}>
-                    <h3>Server Status</h3>
-                    <MList >
+            <FullPanel scrollable={true} className="main-content panelMargin">
+                    <h1>Server Status</h1>
+                    <ul className={style.topListStyle} >
                         {this.state.list.map(function(entry){
                             return <StatusEntry status={entry}></StatusEntry>
                         })}
-                    </MList>
+                    </ul>
             </FullPanel>
             <ButtonList buttons={this._buttons()}></ButtonList>
         </FullPanel>);

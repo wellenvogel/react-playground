@@ -20,9 +20,9 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <li className={style.chartListItem}
+            <li className={style.chartListItem + " section"}
                 onClick={this._onChartSelected} ripple>
-                    <div className={style.chartListInner}>
+                    <div className={style.chartListInner }>
                     <img className={style.chartListItems+" item-icon"} src={imageUrl}></img>
                     <span className={style.chartListItems+" item-text"}>
                     {this.props.data.name}
@@ -41,7 +41,7 @@ var ChartList=React.createClass({
     render: function(){
         var items=this.props.items;
         return(
-            <FullPanel scrollable={true}>
+            <FullPanel scrollable={true} className="section">
                 <ul className="list">
                     {items.map(function (result) {
                         return <ListItem data={result} key={result.name}></ListItem>

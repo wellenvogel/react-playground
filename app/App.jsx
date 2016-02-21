@@ -1,6 +1,6 @@
 import React from 'react';
 import MainPage from "./pages/Main.jsx";
-//import StatusPage from "./pages/Status.jsx";
+import StatusPage from "./pages/Status.jsx";
 import MapPage from "./pages/Map.jsx";
 import Location from "./util/Location.jsx";
 import extend from "lodash/extend";
@@ -21,7 +21,7 @@ module.exports=React.createClass({
             </div>
             ;
         if (pagename == "main") page=<MainPage options={this.props.state.options}></MainPage>;
-//        if (pagename == "status") page=<StatusPage options={this.props.state.options}></StatusPage>;
+        if (pagename == "status") page=<StatusPage options={this.props.state.options}></StatusPage>;
         if (pagename == "map") page=<MapPage options={this.props.state.options}></MapPage>;
 
         return (
