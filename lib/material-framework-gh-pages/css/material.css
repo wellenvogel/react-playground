@@ -1388,7 +1388,7 @@ code {
 	vertical-align: middle;
 }
 [class^="icon-"]:not(.icon-button)::before, [class*=" icon-"]:not(.icon-button)::before {
-	font-family: "material-design-icons";
+	/*font-family: "material-design-icons"; */
 	font-style: normal;
 	font-weight: normal;
 	speak: none;

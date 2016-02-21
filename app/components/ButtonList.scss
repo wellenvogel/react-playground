@@ -1,8 +1,13 @@
 @import '../css/base';
 //we always have floating buttons...
 .buttonList{
+
+}
+
+.buttonListFloat{
+  @extend .buttonList;
   position: absolute;
   top:0px;
   right:0px;
   width: $unit * 5.8;
-}
+ }

@@ -9,6 +9,7 @@ var Alert=require("../components/Alert.jsx").alert;
 var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
+var Page=require("../components/Page.jsx");
 
 var style=require('./Main.scss');
 
@@ -81,7 +82,7 @@ var Status=React.createClass({
 var BottomPanel=React.createClass({
    render: function(){
        return (
-           <div className="avn_left_bottom">
+           <div >
                    <div className="pull-left">
                        <Status status={this.props.status.ais} name="Ais"></Status>
                        <Status status={this.props.status.nmea} name="Nmea"></Status>
@@ -110,15 +111,19 @@ module.exports=React.createClass({
             content=<ChartList items={this.state.list}></ChartList>;
         }
         return (
-            <FullPanel>
-                <div className="avn_left_panel">
-                    <FullPanel scrollable={true}>
-                        {content}
-                    </FullPanel>
-                    <BottomPanel status={status}></BottomPanel>
+            <Page>
+                <div className="avFlexRow">
+                    <div className="avFlexColumn avFlexGrow">
+                        <FullPanel scrollable={true}>
+                            {content}
+                        </FullPanel>
+                        <BottomPanel status={status}></BottomPanel>
+                    </div>
+                    <div>
+                        <ButtonList buttons={this.buttons()}></ButtonList>
+                    </div>
                 </div>
-                <ButtonList buttons={this.buttons()}></ButtonList>
-            </FullPanel>
+            </Page>
         );
     },
     buttons:function(){

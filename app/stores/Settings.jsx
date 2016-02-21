@@ -20,6 +20,10 @@ class Settings{
     getFontBase() { return this.fontBase;}
     getButtonSize() { return this.buttonSize;}
 
+    addThemeColorClass(cn){
+        return cn+ " "
+    }
+
 }
 
 var settings=new Settings();

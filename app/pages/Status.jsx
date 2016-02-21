@@ -5,6 +5,7 @@ var Store=require('../stores/Store.jsx');
 var React=require('react');
 var ButtonList=require("../components/ButtonList.jsx");
 var FullPanel=require("../components/PanelFull.jsx");
+var Page=require("../components/Page.jsx");
 var Location=require("../util/Location.jsx");
 var Alert=require("../components/Alert.jsx").alert;
 var style=require('./Status.scss');
@@ -61,17 +62,30 @@ module.exports=React.createClass({
     },
     render: function(){
         return (
-        <FullPanel>
-            <FullPanel scrollable={true} className="main-content panelMargin">
-                    <h1>Server Status</h1>
-                    <ul className={style.topListStyle} >
-                        {this.state.list.map(function(entry){
+        <Page>
+            <div className="toolbar bg-red-500 color-white">
+                <button className="icon-button">
+                    <i className="material-icons">menu</i>
+                </button>
+                <span className="toolbar-label">Server Status</span>
+	            <span className="float-right">
+		            <button className="icon-button"><i className="material-icons">search</i></button>
+		            <button className="icon-button"><i className="material-icons">star</i></button>
+	            </span>
+            </div>
+            <div className="avFlexRow">
+                <FullPanel scrollable={true} className="panelMargin">
+                    <ul className={style.topListStyle}>
+                        {this.state.list.map(function (entry) {
                             return <StatusEntry status={entry}></StatusEntry>
                         })}
                     </ul>
-            </FullPanel>
-            <ButtonList buttons={this._buttons()}></ButtonList>
-        </FullPanel>);
+                </FullPanel>
+                <div>
+                    <ButtonList buttons={this._buttons()} style={{top:56}}></ButtonList>
+                </div>
+            </div>
+        </Page>);
     },
     componentDidMount: function(x){
         this._queryStatus();

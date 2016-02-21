@@ -3,4 +3,5 @@
 .button{
   margin: $unit*0.1;
   font-size: $unit *2.6;
+  display: block !important; //ensure that we have buttons in a column...
 }

@@ -7,14 +7,18 @@ var Location=require("../util/Location.jsx");
 var Alert=require("../components/Alert.jsx").alert;
 var MapHolder=require("../nav/Map.js");
 var FullPanel=require("../components/PanelFull.jsx");
+var Page=require("../components/Page.jsx");
 
 MapHolder.init();
 
 var Map=React.createClass({
     render: function(){
         var style={
-            width: "100%",
-            height: "100%"
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
         };
         return(
             <div ref="mapdiv" style={style}>
@@ -44,12 +48,12 @@ module.exports=React.createClass({
             }
         };
         return (
-            <FullPanel>
+            <Page>
                 <FullPanel>
                     <Map></Map>
                 </FullPanel>
-                <ButtonList buttons={this._buttons()}></ButtonList>
-            </FullPanel>
+                <ButtonList buttons={this._buttons()} float></ButtonList>
+            </Page>
         );
     },
     _buttons: function () {
