@@ -26,6 +26,7 @@ class Settings{
     getButtonFontSize() { return this.buttonSize/ButtonFontFactor;}
     getBottomPanelHeight() { return this.fontBase * 4}
     getToolBarHeight(){ return this.fontBase *FactorToolbarHeight;}
+    getToolBarColor(){return "bg-indigo-500";}
 
 
     addThemeColorClass(cn){

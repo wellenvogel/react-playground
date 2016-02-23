@@ -10,6 +10,7 @@ var FullPanel=require('../components/PanelFull.jsx');
 var extend = require('lodash/extend');
 var Settings=require('../stores/Settings.jsx');
 var Page=require("../components/Page.jsx");
+var ToolBar=require("../components/ToolBar.jsx");
 
 var csstyle=require('./Main.scss');
 
@@ -21,15 +22,16 @@ var ListItem = React.createClass({
             imageUrl = this.props.icon
         }
         return (
-            <li className={csstyle.chartListItem + " section"}
+            <div className={csstyle.chartListItem + " section"}
                 onClick={this._onChartSelected} ripple>
-                    <div className={csstyle.chartListInner }>
-                    <img className={csstyle.chartListItems+" item-icon"} src={imageUrl}></img>
+                    <img src={imageUrl} className={csstyle.chartListImage}></img>
                     <span className={csstyle.chartListItems+" item-text"}>
                     {this.props.data.name}
                     </span>
-                    </div>
-            </li>
+                    <span className="float-right">
+                        <i className="material-icons">keyboard_arrow_right</i>
+                    </span>
+            </div>
         );
     },
     _onChartSelected: function () {
@@ -54,52 +56,14 @@ var ChartList=React.createClass({
 });
 
 
-var statusIcons= {
-    grey: require("../css/images/GreyBubble40.png"),
-    yellow: require("../css/images/YellowBubble40.png"),
-    green:   require("../css/images/GreenBubble40.png"),
-    red: require("../css/images/RedBubble40.png")
-};
-var Status=React.createClass({
-    render: function(){
-        return(
-            <div className='avn_status_widget'>
-                <img className='avn_status_image_small' src={this.getStatusImage()}/>
-                {this.props.name}&nbsp;<span className="">{this.props.status.text}</span>
-            </div>
 
-        );
-    },
-    getStatusImage:function(){
-        var color="grey";
-        if (this.props.status && this.props.status.status){
-            color=this.props.status.status.toLowerCase();
-        }
-        return statusIcons[color]||statusIcons.grey;
-    }
-});
-
-var BottomPanel=React.createClass({
-   render: function(){
-       var style={
-           height: Settings.getBottomPanelHeight(),
-           right: Settings.getButtonListWidth()
-       };
-       return (
-
-           <div style={style} className={csstyle.bottomPanel}>
-                   <div className="avLeft">
-                       <Status status={this.props.status.ais} name="Ais"></Status>
-                       <Status status={this.props.status.nmea} name="Nmea"></Status>
-                   </div>
-                   <div className="avRight">
-                       <a href="http://www.wellenvogel.de">AvNav React0.1</a>
-                   </div>
-           </div>
-       );
-   }
-});
 module.exports=React.createClass({
+    interval:0,
+    getInitialState: function(){
+        return{
+            gpsOk: false
+        };
+    },
     render: function(){
         var status={
             ais:{
@@ -117,11 +81,15 @@ module.exports=React.createClass({
         }
         return (
             <Page>
-                        <FullPanel scrollable bottom buttons>
-                            {content}
-                        </FullPanel>
-                        <BottomPanel status={status}></BottomPanel>
-                        <ButtonList buttons={this.buttons()}></ButtonList>
+                <ToolBar label="AvNav">
+                    <span className="float-right">
+		                <button className="icon-button"><i className="material-icons">{this.state.gpsOk?"gps_fixed":"gps_not_fixed"}</i></button>
+	                </span>
+                </ToolBar>
+                <FullPanel scrollable top buttons>
+                    {content}
+                </FullPanel>
+                <ButtonList top buttons={this.buttons()}></ButtonList>
             </Page>
         );
     },
@@ -148,9 +116,18 @@ module.exports=React.createClass({
     change: function(o) {
         console.log("change called");
     },
+    timer:function(){
+      this.setState({
+          gpsOk:!this.state.gpsOk
+      });
+    },
     componentDidMount: function(x){
         Store.register(this);
+        this.interval=window.setInterval(this.timer,1000);
         this._fillData();
+    },
+    componentWillUnmount: function(){
+        window.clearInterval(this.interval);
     },
     _onStatsClick: function(e){
         console.log("clicked "+e.target);
