@@ -29,21 +29,59 @@ class Map {
          * type {boolean}
          */
         this.isVisbible = false;
-    }
 
+        this.factor=2;
+        this.layer=undefined;
+    }
+    getLayer(){
+        var self=this;
+        return new ol.layer.Tile({
+            //source: new ol.source.OSM()
+
+            source: new ol.source.XYZ({
+                tileUrlFunction: function (coord) {
+                    if (!coord) return undefined;
+                    var zxy = coord;
+                    var z = zxy[0];
+                    var x = zxy[1];
+                    var y = zxy[2];
+                    var inversy = false;
+                    y=-y-1;
+                    var layerurl="https://c.tile.openstreetmap.org";
+                    if (inversy) {
+                        y = (1 << z) - y - 1
+                    }
+
+                    return layerurl + '/' + z + '/' + x + '/' + y + ".png?f="+self.factor;
+                },
+                tileSize: 256*self.factor,
+                tilePixelRatio: 1/self.factor,
+
+
+
+            })
+        });
+    }
     init() {
+        this.layer=this.getLayer();
+        var self=this;
         this.olmap = new ol.Map({
             layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                }),
-                //placeLayer
-            ],
+                    self.layer
+                ],
             view: new ol.View({
                 center: [949282, 6002552],
                 zoom: 4
             })
         });
+    }
+    changeScale(scale){
+        if (scale <= 0.0001) return;
+        this.factor=scale;
+        this.olmap.removeLayer(this.layer);
+        this.layer=this.getLayer()
+        this.olmap.addLayer(this.layer);
+        this.olmap.render();
     }
 
     /**

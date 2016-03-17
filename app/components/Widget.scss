@@ -1,0 +1,18 @@
+$fontBase: 1.5em;
+
+.widget{
+  border-radius: 0.2em;
+  background-color: white;
+  z-index: 100;
+  padding: 0.3em
+}
+.main{
+  font-size: 1.5 * $fontBase;
+  margin-right: 0.3em
+}
+.unit{
+  font-size: 0.7 * $fontBase;
+}
+.caption{
+  font-size: 0.3 * $fontBase;
+}
