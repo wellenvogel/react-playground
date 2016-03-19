@@ -9,6 +9,7 @@ var MapHolder=require("../nav/Map.js");
 var FullPanel=require("../components/PanelFull.jsx");
 var Page=require("../components/Page.jsx");
 var Widget=require("../components/Widget.jsx");
+var css=require("./Map.scss");
 
 MapHolder.init();
 
@@ -82,19 +83,24 @@ module.exports=React.createClass({
                     <Map></Map>
                 </FullPanel>
                 <ButtonList buttons={this._buttons()} float></ButtonList>
-                {
-                    this.widgets.map(function(entry){
-                        var width=(entry.max.length+widgetMargin)*1.5;
-                        var style={
-                            bottom:bottom,
-                            left: start +"em",
-                            position: "absolute",
-                            width: width+"em"
-                        };
-                        start+=width*1.1;
-                        return <Widget wkey={entry.key} wunit={entry.unit} wcaption={entry.caption} style={style}></Widget>
-                    })
-                }
+                <div className={css.widgetContainerLeft}>
+                    {
+                        this.widgets.map(function (entry) {
+                            var width = (entry.max.length + widgetMargin) * 1.5;
+                            var style = {
+                                bottom: bottom,
+                                left: start + "em",
+                                //position: "absolute",
+                                width: width + "em",
+                                float: 'right'
+
+                            };
+                            start += width * 1.1;
+                            return <Widget wkey={entry.key} wunit={entry.unit} wcaption={entry.caption}
+                                           style={style}></Widget>
+                        })
+                    }
+                </div>
             </Page>
         );
     },

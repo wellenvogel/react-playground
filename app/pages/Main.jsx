@@ -59,11 +59,6 @@ var ChartList=React.createClass({
 
 module.exports=React.createClass({
     interval:0,
-    getInitialState: function(){
-        return{
-            gpsOk: false
-        };
-    },
     render: function(){
         var status={
             ais:{
@@ -110,7 +105,8 @@ module.exports=React.createClass({
     getInitialState: function(){
         var list=[];
         return {
-            list:list
+            list:list,
+            gpsOk: false
         }
     },
     change: function(o) {
@@ -136,7 +132,7 @@ module.exports=React.createClass({
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);
         Alert({title:"Not Implemented",
-            body: <p>This feature is not implemented yet</p>,
+            body: <p>This feature is not implemented yet</p>
         });
     },
     _fillData: function(){
