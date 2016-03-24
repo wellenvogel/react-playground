@@ -80,7 +80,7 @@ module.exports = {
             },
 
             {
-                test: /fonts\/.*\.png$|fonts\/.*\.svg$|fonts\/.*\.ttf$|fonts\/.*\.woff$|fonts\/.*\.eot$/,
+                test: /fonts[\\\/].*\.png$|fonts[\\\/].*\.svg$|fonts[\\\/].*\.ttf$|fonts[\\\/].*\.woff$|fonts[\\\/].*\.eot$/,
                 loader: 'file-loader',
                 //we are not really able to tell the file loader to copy files correctly
                 //so we let it copy them and afterwards copy them again by the copy plugin
@@ -89,7 +89,7 @@ module.exports = {
                 }
             },
             {
-                test: /images\/.*\.png$|images\/.*\.svg$/,
+                test: /images[\\\/].*\.png$|images[\\\/].*\.svg$/,
                 loader: 'file-loader',
                 //we are not really able to tell the file loader to copy files correctly
                 //so we let it copy them and afterwards copy them again by the copy plugin
