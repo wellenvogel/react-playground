@@ -12,6 +12,7 @@ var Widget=require("../components/Widget.jsx");
 var css=require("./Map.scss");
 var Formatter=require("../util/Formatter.jsx");
 var Constants=require("../Constants");
+var Factory=require("../components/WidgetFactory.jsx");
 
 MapHolder.init();
 
@@ -43,19 +44,14 @@ const widgetMargin=1; //em
 module.exports=React.createClass({
     widgets:[
         {
-            key: Constants.values.SPEED,
-            max: "100.0",
-            unit: "kn",
-            caption: 'SOG',
-            formatter: function(val){ return Formatter.formatDecimal(val,4,1);}
+            name: 'SOG',
         },
         {
-            key: Constants.values.COURSE,
-            max: "999",
-            unit: "°",
-            caption: 'COG',
-            formatter: function(val){ return Formatter.formatDecimal(val,3,0);}
+            name: 'COG',
         },
+        {
+            name: "unknown"
+        }
 
     ]
     ,
@@ -90,7 +86,7 @@ module.exports=React.createClass({
                 <div className={css.widgetContainerLeft}>
                     {
                         this.widgets.map(function (entry) {
-                            var width = (entry.max.length + widgetMargin) * 1.5;
+                            var width = Factory.getWidgetWidth(entry.name) + widgetMargin * 1.5;
                             var style = {
                                 bottom: bottom,
                                 left: start + "em",
@@ -100,8 +96,7 @@ module.exports=React.createClass({
 
                             };
                             start += width * 1.1;
-                            return <Widget wkey={entry.key} wunit={entry.unit} wcaption={entry.caption} wformatter={entry.formatter}
-                                           style={style}></Widget>
+                            return Factory.createWidget(entry.name,style);
                         })
                     }
                 </div>
