@@ -2,6 +2,7 @@ import Widget from "./Widget.jsx";
 import Formatter from "../util/Formatter.jsx";
 import React from "react";
 import Constants from "../Constants";
+import assign from "object-assign";
 
 var widgetList=[
     {
@@ -50,6 +51,13 @@ class WidgetFactory{
             });
         }
         return React.createElement("div",{},"widget "+name+" not found");
+    }
+    getAvailableWidgets(){
+        var rt=widgetList.slice();
+        rt.forEach(function(el){
+           if (el.description === undefined)el.description=el.name; 
+        });
+        return rt;
     }
 }
 

@@ -13,6 +13,7 @@ var css=require("./Map.scss");
 var Formatter=require("../util/Formatter.jsx");
 var Constants=require("../Constants");
 var Factory=require("../components/WidgetFactory.jsx");
+var Layout=require("../stores/LayoutStore.jsx");
 
 MapHolder.init();
 
@@ -32,9 +33,11 @@ var Map=React.createClass({
     },
     componentDidMount:function(){
         MapHolder.renderTo(this.refs.mapdiv);
+        Layout.addChangeListener(this.onLayoutChange);
     },
     componentWillUnmount: function(){
         MapHolder.renderTo(null);
+        Layout.removeChangeListener(this.onLayoutChange);
     }
 
 });
@@ -42,19 +45,7 @@ var Map=React.createClass({
 const widgetMargin=1; //em
 
 module.exports=React.createClass({
-    widgets:[
-        {
-            name: 'SOG',
-        },
-        {
-            name: 'COG',
-        },
-        {
-            name: "unknown"
-        }
-
-    ]
-    ,
+   
     render: function(){
         var status={
             ais:{
@@ -85,7 +76,7 @@ module.exports=React.createClass({
                 <ButtonList buttons={this._buttons()} float></ButtonList>
                 <div className={css.widgetContainerLeft}>
                     {
-                        this.widgets.map(function (entry) {
+                        this.state.layout.map(function (entry) {
                             var width = Factory.getWidgetWidth(entry.name) + widgetMargin * 1.5;
                             var style = {
                                 bottom: bottom,
@@ -102,6 +93,11 @@ module.exports=React.createClass({
                 </div>
             </Page>
         );
+    },
+    onLayoutChange: function(){
+        this.setState({
+            layout: Layout.getWidgetList()
+        });
     },
     onChange: function(input){
         var v=input.target.value;
@@ -141,7 +137,9 @@ module.exports=React.createClass({
     }
     ,
     getInitialState: function(){
-        return({});
+        return( {
+            layout: Layout.getWidgetList()
+        });
     }
 
 
