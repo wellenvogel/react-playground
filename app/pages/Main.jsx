@@ -110,7 +110,7 @@ module.exports=React.createClass({
         }
     },
     change: function(o) {
-        console.log("change called");
+        console.log("Mainpage change called");
     },
     timer:function(){
       this.setState({
@@ -118,11 +118,12 @@ module.exports=React.createClass({
       });
     },
     componentDidMount: function(x){
-        Store.register(this);
+        Store.addChangeListener(this.change);
         this.interval=window.setInterval(this.timer,1000);
         this._fillData();
     },
     componentWillUnmount: function(){
+        Store.removeChangeListener(this.change);
         window.clearInterval(this.interval);
     },
     _onStatsClick: function(e){

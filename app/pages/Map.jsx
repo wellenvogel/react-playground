@@ -10,6 +10,8 @@ var FullPanel=require("../components/PanelFull.jsx");
 var Page=require("../components/Page.jsx");
 var Widget=require("../components/Widget.jsx");
 var css=require("./Map.scss");
+var Formatter=require("../util/Formatter.jsx");
+var Constants=require("../Constants");
 
 MapHolder.init();
 
@@ -41,16 +43,18 @@ const widgetMargin=1; //em
 module.exports=React.createClass({
     widgets:[
         {
-            key: "4.5",
+            key: Constants.values.SPEED,
             max: "100.0",
             unit: "kn",
-            caption: 'SOG'
+            caption: 'SOG',
+            formatter: function(val){ return Formatter.formatDecimal(val,4,1);}
         },
         {
-            key: "270",
+            key: Constants.values.COURSE,
             max: "999",
             unit: "°",
-            caption: 'COG'
+            caption: 'COG',
+            formatter: function(val){ return Formatter.formatDecimal(val,3,0);}
         },
 
     ]
@@ -96,7 +100,7 @@ module.exports=React.createClass({
 
                             };
                             start += width * 1.1;
-                            return <Widget wkey={entry.key} wunit={entry.unit} wcaption={entry.caption}
+                            return <Widget wkey={entry.key} wunit={entry.unit} wcaption={entry.caption} wformatter={entry.formatter}
                                            style={style}></Widget>
                         })
                     }

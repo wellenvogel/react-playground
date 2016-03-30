@@ -47,7 +47,7 @@ class Map {
                     var y = zxy[2];
                     var inversy = false;
                     y=-y-1;
-                    var layerurl="https://c.tile.openstreetmap.org";
+                    var layerurl="http://a.tile.openstreetmap.org";
                     if (inversy) {
                         y = (1 << z) - y - 1
                     }

@@ -5,13 +5,14 @@
 
 
 import React from 'react';
-import Store from "./stores/Store.jsx";
+import Dispatcher from "./Dispatcher";
 import App from "./App.jsx";
 import Location from "./util/Location.jsx";
 import assign from 'object-assign';
 import AlertHandler from './components/Alert.jsx';
 import 'babel-polyfill';
 import './css/avnav_viewer.less';
+import Nav from "./nav/Nav";
 const Settings=require('./stores/Settings.jsx');
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -26,6 +27,8 @@ injectTapEventPlugin();
 //getcommon.scss without module stuff
 require('./css/commons.scss');
 var md = new Material();
+
+Nav.start();
 
 
 function render(state) {
@@ -56,6 +59,6 @@ window.addEventListener('pagehide', () => {
 });
 setInterval(function(){
     //console.log("timer");
-    Store.update({text:new Date().toISOString()});
+    Dispatcher.dispatch({type: "test",text:new Date().toISOString()});
 },1000);
 AlertHandler.render(document.getElementById('overlay-container'));
