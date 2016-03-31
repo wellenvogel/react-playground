@@ -72,7 +72,7 @@ module.exports=React.createClass({
         return (
             <Page>
                 <FullPanel>
-                    <input type="text" style={istyle} className="scale" onChange={this.onChange}></input>
+                    <input type="text" style={istyle} className="scale" onChange={this._onScaleChange}></input>
                     <Map></Map>
                 </FullPanel>
                 <ButtonList buttons={this._buttons()} float></ButtonList>
@@ -93,44 +93,59 @@ module.exports=React.createClass({
                             var widgetLayoutIndex=layoutIndex;
                             layoutIndex++;
                             return Factory.createWidget(entry.name,style,function(){
-                               self.widgetClick(widget,widgetLayoutIndex) ;
+                               self._onWidgetClick(widgetLayoutIndex) ;
                             });
                         })
                     }
                 </div>
-                {this.state.popUp.visible?<PopUp {...this.state.popUp}></PopUp>:""}
+                {(this.state.editingWidget >= 0)?<PopUp {...this._getPopUpProperties()}></PopUp>:""}
             </Page>
         );
     },
-    widgetClick: function(widget,layoutIndex){
+    _getPopUpProperties:function(){
+        var rt={};
+        if (this.state.editingWidget < 0){
+            rt.visible=false;
+            return;
+        }
         var self=this;
-        var widgetLayoutIndex=layoutIndex;
-         this.setState({
-             popUp:{
-                 visible: true,
-                 options: Factory.getAvailableWidgets(),
-                 selected: Factory.findWidgetIndex(widget.name),
-                 selectCallback: function(index){
-                     self.widgetContentChange(widgetLayoutIndex,index);
-                     
-                 }
-             }
-         });   
+        var layoutIndex=this.state.editingWidget;
+        rt.visible=true;
+        rt.headline="Select Value";
+        var optionList=Factory.getAvailableWidgets();
+        optionList.unshift({caption:"-none-"});
+        rt.options=optionList;
+        rt.selected=Factory.findWidgetIndex(Layout.getWidgetAt(this.state.editingWidget))+1;
+        rt.selectCallback=function(index){
+            self._onPopUpSelect(layoutIndex,index);
+        };
+        return rt;
     },
-    widgetContentChange: function(layoutIndex,index){
-        var name=this.state.popUp.options[index].caption;
-        //alert("widget "+name+" for "+layoutIndex+" selected");
-        this.setState({popUp:{visible:false}});
-        WidgetAction.fire(layoutIndex,name);
+    /**
+     * click handler for widget
+     * @param layoutIndex
+     */
+    _onWidgetClick: function(layoutIndex){
+        this.setState({editingWidget: layoutIndex});
+    },
+    _onPopUpSelect: function(layoutIndex, index){
+        this.setState({editingWidget:-1});
+        if (index <= 0){
+            //TODO. handle index 0 (none)
+            return;
+        }
+        var widget=Factory.getWidget(index-1);
+        if (widget === undefined) return;
+        WidgetAction.fire(layoutIndex,widget.name);
 
 
     },
-    onLayoutChange: function(){
+    _onLayoutChange: function(){
         this.setState({
             layout: Layout.getWidgetList()
         });
     },
-    onChange: function(input){
+    _onScaleChange: function(input){
         var v=input.target.value;
         if (v == "") return;
         v=parseFloat(v)
@@ -170,14 +185,14 @@ module.exports=React.createClass({
     getInitialState: function(){
         return( {
             layout: Layout.getWidgetList(),
-            popUp: { visible: false}
+            editingWidget: -1
         });
     },
     componentDidMount:function(){
-        Layout.addChangeListener(this.onLayoutChange);
+        Layout.addChangeListener(this._onLayoutChange);
     },
     componentWillUnmount: function(){
-        Layout.removeChangeListener(this.onLayoutChange);
+        Layout.removeChangeListener(this._onLayoutChange);
     }
 
 

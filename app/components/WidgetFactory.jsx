@@ -24,16 +24,32 @@ var widgetList=[
 ];
 
 class WidgetFactory{
-    findWidget(name: String){
-        var i=this.findWidgetIndex(name);
+    /**
+     * find a complete widget description
+     * @param widget - either a name or a widget description with a name field
+     * @returns {*}
+     */
+    findWidget(widget){
+        var i=this.findWidgetIndex(widget);
         if (i < 0) return undefined;
         return widgetList[i];
     }
-    findWidgetIndex(name: String){
+
+    /**
+     * find teh index for a widget
+     * @param widget - either a name or a widget description with a name field
+     * @returns {number} - -1 omn error
+     */
+    findWidgetIndex(widget){
+        if (widget === undefined) return -1;
+        var search=widget;
+        if (typeof(widget) !== "string"){
+            search=widget.name;
+        }
         var i;
         for (i=0;i<widgetList.length;i++) {
             var e = widgetList[i];
-            if ((e.name !== undefined && e.name == name ) || (e.caption == name)) {
+            if ((e.name !== undefined && e.name == search ) || (e.caption == search)) {
                 return i;
             }
         }
@@ -60,12 +76,20 @@ class WidgetFactory{
         }
         return React.createElement("div",{},"widget "+name+" not found");
     }
+    getWidget(index: Number){
+        if (index < 0 || index >= widgetList.length) return undefined;
+        var el=assign({},widgetList[index]);
+        if (el.name === undefined) el.name=el.caption;
+        if (el.description === undefined)el.description=el.name;
+        return el;
+    }
     getAvailableWidgets(){
-        var rt=widgetList.slice();
-        rt.forEach(function(el){
-            if (el.name === undefined) el.name=el.caption;
-            if (el.description === undefined)el.description=el.name;
-        });
+        var rt=[];
+        var i;
+        for (i=0;i< widgetList.length;i++){
+            var el=this.getWidget(i);
+            rt.push(el);
+        }
         return rt;
     }
 }

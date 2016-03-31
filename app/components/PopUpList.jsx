@@ -43,7 +43,7 @@ var PopUpList=React.createClass({
                 { this.props.options.map(function(el){
                     var itemIndex=idx;
                     var className=css.unselected;
-                    var displayValue=el instanceof String?el:el[self.props.item];
+                    var displayValue=(typeof(el) === "string")?el:el[self.props.item];
                     if (itemIndex == self.state.selected) className=css.selected;
                     idx++;
                     return( <li className={className} onClick={function(){

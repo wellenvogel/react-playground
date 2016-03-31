@@ -20,6 +20,11 @@ var Widget=React.createClass({
             val:NavStore.getValue(this.props.wkey)
         };
     },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({
+            val:NavStore.getValue(nextProps.wkey)
+        });
+    },
     onChange: function(){
         var v=NavStore.getValue(this.props.wkey);
         if (v != this.state.val){

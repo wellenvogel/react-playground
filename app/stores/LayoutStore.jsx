@@ -12,7 +12,7 @@ class LayoutStore extends BaseStore{
         }];
     }
     actionFunction(action){
-        if (! action.type != Constants.actions.WIDGET) return;
+        if (action.type != Constants.actions.WIDGET) return;
         var layoutIndex=action.layoutIndex;
         var widgetName=action.widgetName;
         //TODO: add /remove...
@@ -23,6 +23,11 @@ class LayoutStore extends BaseStore{
     getWidgetList(){
         return this.widgetList;
     }
+    getWidgetAt(index:Number){
+        if (index <0 || index >= this.widgetList.length) return undefined;
+        return this.widgetList[index];
+    }
+
 
 };
 
