@@ -8,11 +8,12 @@ var NavStore=require("../stores/NavStore.jsx");
 
 var Widget=React.createClass({
     propTypes:{
-        wkey: React.PropTypes.string,
+        wkey: React.PropTypes.number,
         wunit: React.PropTypes.string,
         wcaption: React.PropTypes.string,
         width: React.PropTypes.number,
-        wformatter: React.PropTypes.func
+        wformatter: React.PropTypes.func,
+        wclick: React.PropTypes.func
     },
     getInitialState: function(){
         return{
@@ -32,8 +33,11 @@ var Widget=React.createClass({
         NavStore.removeChangeListener(this.onChange);
     },
     render: function(){
+        var self=this;
         return (
-          <div className={csstyle.widget} draggable {...this.props}>
+          <div className={csstyle.widget} draggable {...this.props} onClick={function(){
+            self.props.wclick();
+          }}>
               <div className={csstyle.caption}>{this.props.wcaption}</div>
               <div>
                   <span className={csstyle.main}>{this.props.wformatter(this.state.val)}</span>

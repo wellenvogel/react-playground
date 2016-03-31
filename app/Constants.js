@@ -4,7 +4,8 @@
 
 module.exports={
     actions: {
-        NAV: 1
+        NAV: 1,
+        WIDGET: 2,
     },
     values:{
         COURSE: 1,

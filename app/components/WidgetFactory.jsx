@@ -25,21 +25,26 @@ var widgetList=[
 
 class WidgetFactory{
     findWidget(name: String){
+        var i=this.findWidgetIndex(name);
+        if (i < 0) return undefined;
+        return widgetList[i];
+    }
+    findWidgetIndex(name: String){
         var i;
         for (i=0;i<widgetList.length;i++) {
             var e = widgetList[i];
             if ((e.name !== undefined && e.name == name ) || (e.caption == name)) {
-                return e;
+                return i;
             }
         }
-        return undefined;
+        return -1;
     }
     getWidgetWidth(name: String){
         var e=this.findWidget(name);
         if (! e) return 0;
         return e.max.length * 1.5;
     }
-    createWidget(name: String, style: Object){
+    createWidget(name: String, style: Object,click: Function){
         var e=this.findWidget(name);
         if (e) {
             return React.createElement(e.wclass, {
@@ -47,6 +52,9 @@ class WidgetFactory{
                 wunit: e.unit,
                 wcaption: e.caption,
                 wformatter: e.formatter,
+                wclick: function(){
+                    click();
+                },
                 style: style
             });
         }
@@ -55,7 +63,8 @@ class WidgetFactory{
     getAvailableWidgets(){
         var rt=widgetList.slice();
         rt.forEach(function(el){
-           if (el.description === undefined)el.description=el.name; 
+            if (el.name === undefined) el.name=el.caption;
+            if (el.description === undefined)el.description=el.name;
         });
         return rt;
     }

@@ -14,6 +14,8 @@ var Formatter=require("../util/Formatter.jsx");
 var Constants=require("../Constants");
 var Factory=require("../components/WidgetFactory.jsx");
 var Layout=require("../stores/LayoutStore.jsx");
+var PopUp=require("../components/PopUpList.jsx");
+var WidgetAction=require("../actions/WidgetAction");
 
 MapHolder.init();
 
@@ -33,11 +35,9 @@ var Map=React.createClass({
     },
     componentDidMount:function(){
         MapHolder.renderTo(this.refs.mapdiv);
-        Layout.addChangeListener(this.onLayoutChange);
     },
     componentWillUnmount: function(){
         MapHolder.renderTo(null);
-        Layout.removeChangeListener(this.onLayoutChange);
     }
 
 });
@@ -67,6 +67,8 @@ module.exports=React.createClass({
             zIndex: 100
 
         };
+        var self=this;
+        var layoutIndex=0;
         return (
             <Page>
                 <FullPanel>
@@ -87,12 +89,41 @@ module.exports=React.createClass({
 
                             };
                             start += width * 1.1;
-                            return Factory.createWidget(entry.name,style);
+                            var widget=entry;
+                            var widgetLayoutIndex=layoutIndex;
+                            layoutIndex++;
+                            return Factory.createWidget(entry.name,style,function(){
+                               self.widgetClick(widget,widgetLayoutIndex) ;
+                            });
                         })
                     }
                 </div>
+                {this.state.popUp.visible?<PopUp {...this.state.popUp}></PopUp>:""}
             </Page>
         );
+    },
+    widgetClick: function(widget,layoutIndex){
+        var self=this;
+        var widgetLayoutIndex=layoutIndex;
+         this.setState({
+             popUp:{
+                 visible: true,
+                 options: Factory.getAvailableWidgets(),
+                 selected: Factory.findWidgetIndex(widget.name),
+                 selectCallback: function(index){
+                     self.widgetContentChange(widgetLayoutIndex,index);
+                     
+                 }
+             }
+         });   
+    },
+    widgetContentChange: function(layoutIndex,index){
+        var name=this.state.popUp.options[index].caption;
+        //alert("widget "+name+" for "+layoutIndex+" selected");
+        this.setState({popUp:{visible:false}});
+        WidgetAction.fire(layoutIndex,name);
+
+
     },
     onLayoutChange: function(){
         this.setState({
@@ -138,8 +169,15 @@ module.exports=React.createClass({
     ,
     getInitialState: function(){
         return( {
-            layout: Layout.getWidgetList()
+            layout: Layout.getWidgetList(),
+            popUp: { visible: false}
         });
+    },
+    componentDidMount:function(){
+        Layout.addChangeListener(this.onLayoutChange);
+    },
+    componentWillUnmount: function(){
+        Layout.removeChangeListener(this.onLayoutChange);
     }
 
 

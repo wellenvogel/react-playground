@@ -1,0 +1,21 @@
+
+
+.container {
+  position: absolute;
+  background-color: white;
+  min-width: 8em;
+  text-align: center;
+}
+.unselected{
+
+}
+.selected{
+  background-color: rgba(0, 0, 0, 0.25)
+}
+.headline{
+  opacity: 0.75;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.34);
+  font-size: 0.8em;
+  padding-bottom: 0.8em;
+  padding-top: 0.8em;
+}
