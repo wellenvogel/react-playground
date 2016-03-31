@@ -2,7 +2,6 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin= require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var materialIcons=__dirname+"/node_modules/material-design-icons/iconfont";
 
 var cssLoaderQuery="&localIdentName=[path][name]---[local]---[hash:base64:5]";
 if (process.env.NODE_ENV === 'production') {
@@ -19,17 +18,14 @@ var copyList=[
         to: "index.html"
     },
     {
-        from: materialIcons,
-        to: "css/fonts"
-    },
-    {
         from: "lib/material-framework-gh-pages/dist/material.min.js",
         to: 'libs'
     },
     {
         from: "lib/material-framework-gh-pages/css/material.css",
         to: "css/material.min.css"
-    }
+    },
+    
 
 
 ];

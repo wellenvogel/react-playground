@@ -1,10 +1,11 @@
 
 
 .container {
-  position: absolute;
+  position: fixed;
   background-color: white;
   min-width: 8em;
   text-align: center;
+  overflow-y: auto;
 }
 .unselected{
 
@@ -18,4 +19,12 @@
   font-size: 0.8em;
   padding-bottom: 0.8em;
   padding-top: 0.8em;
+}
+.close{
+  font-family: Moonicons;
+  position: absolute;
+  right: 0.5em;
+}
+.close:before{
+  content: "\EA0F";
 }

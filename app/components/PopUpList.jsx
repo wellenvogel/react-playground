@@ -38,7 +38,7 @@ var PopUpList=React.createClass({
         var self=this;
         return(
             <div className={css.container+" card"} data-z="3" style={style}>
-                <div className={css.headline}>{this.props.headline}</div>
+                <div className={css.headline} onClick={function(){self.select(-1)}}>{this.props.headline}<i className={css.close}></i></div>
                 <ul className="list">
                 { this.props.options.map(function(el){
                     var itemIndex=idx;
@@ -53,7 +53,29 @@ var PopUpList=React.createClass({
                 </ul>
             </div>
         );
+    },
+    componentDidUpdate: function(){
+        this._move();
+    },
+    componentDidMount: function(){
+        this._move();
+    },
+    _move: function() {
+        if (this.props.parent === undefined)return;
+        var parentPos= $(this.props.parent.getDOMNode()).offset();
+        var dom=this.getDOMNode();
+        var dheight=$(window).height();
+        var ownHeight=$(dom).height();
+        var bottom=dheight-parentPos.top;
+        if ((bottom + ownHeight) > dheight){
+            bottom=(ownHeight > dheight)?0:dheight-ownHeight;
+        }
+        $(dom).css('left',parentPos.left+"px");
+        $(dom).css('bottom',bottom+"px");
+        $(dom).css('max-height',(dheight *0.9)+"px");
     }
+
+
 });
 
 module.exports=PopUpList;

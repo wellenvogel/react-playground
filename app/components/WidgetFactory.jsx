@@ -60,7 +60,7 @@ class WidgetFactory{
         if (! e) return 0;
         return e.max.length * 1.5;
     }
-    createWidget(name: String, style: Object,click: Function){
+    createWidget(name: String, style: Object,click: Function, ref: String){
         var e=this.findWidget(name);
         if (e) {
             return React.createElement(e.wclass, {
@@ -71,6 +71,7 @@ class WidgetFactory{
                 wclick: function(){
                     click();
                 },
+                ref: ref,
                 style: style
             });
         }

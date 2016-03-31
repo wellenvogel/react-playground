@@ -91,10 +91,11 @@ module.exports=React.createClass({
                             start += width * 1.1;
                             var widget=entry;
                             var widgetLayoutIndex=layoutIndex;
+                            var ref="Widget"+widgetLayoutIndex;
                             layoutIndex++;
                             return Factory.createWidget(entry.name,style,function(){
                                self._onWidgetClick(widgetLayoutIndex) ;
-                            });
+                            },ref);
                         })
                     }
                 </div>
@@ -119,6 +120,7 @@ module.exports=React.createClass({
         rt.selectCallback=function(index){
             self._onPopUpSelect(layoutIndex,index);
         };
+        rt.parent=this.refs["Widget"+layoutIndex];
         return rt;
     },
     /**
