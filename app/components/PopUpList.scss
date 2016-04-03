@@ -21,10 +21,7 @@
   padding-top: 0.8em;
 }
 .close{
-  font-family: Moonicons;
-  position: absolute;
-  right: 0.5em;
-}
-.close:before{
-  content: "\EA0F";
+  float: right;
+  margin-right: 0.3em;
+  font-size: 1.3em;
 }

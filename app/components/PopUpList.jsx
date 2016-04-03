@@ -38,7 +38,7 @@ var PopUpList=React.createClass({
         var self=this;
         return(
             <div className={css.container+" card"} data-z="3" style={style}>
-                <div className={css.headline} onClick={function(){self.select(-1)}}>{this.props.headline}<i className={css.close}></i></div>
+                <div className={css.headline} onClick={function(){self.select(-1)}}>{this.props.headline}<i className={css.close + " icon-close"}></i></div>
                 <ul className="list">
                 { this.props.options.map(function(el){
                     var itemIndex=idx;

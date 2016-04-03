@@ -29,7 +29,7 @@ var ListItem = React.createClass({
                     {this.props.data.name}
                     </span>
                     <span className="float-right">
-                        <i className="icon-keyboard-arrow-right"></i>
+                        <i className="icon-chevron-right"></i>
                     </span>
             </div>
         );

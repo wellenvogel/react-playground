@@ -19,7 +19,7 @@ module.exports=React.createClass({
         }
         return(
             <button className={csstyle.button + " fab bg-indigo-500 color-white"} onClick={this.clickHandler} style={style}>
-                {this.props.icon?<span className={"avicon-"+this.props.icon}></span>:undefined }
+                {this.props.icon?<span className={"icon-"+this.props.icon}></span>:undefined }
                 {this.props.muiIcon?<i className="material-icons">{this.props.muiIcon}</i>:undefined}
             </button>
         );

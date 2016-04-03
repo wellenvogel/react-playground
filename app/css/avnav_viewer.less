@@ -28,17 +28,7 @@
 
 
 
-/**
- icon font
- **/
-@font-face {
-  font-family: Moonicons;
-  font-style: normal;
-  font-weight: normal;
 
-  src: url("./fonts/icomoon.eot");
-  src: url("./fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("./fonts/icomoon.woff") format("woff"), url("./fonts/icomoon.ttf") format("truetype"), url("./fonts/icomoon.svg#svgFontName") format("svg");
-}
 
 @font-face {
   font-family: Roboto;
@@ -47,33 +37,7 @@
   src:  url("./fonts/Roboto-Regular.ttf") format("truetype");
 }
 
-.ourIcon(@content){
-  height: initial !important;
-  &:before {
-    content: @content;
-    font-family: Moonicons !important;
-  }
-}
 
-
-.avicon-stats-bars2 {
-  .ourIcon("\e99d");
-}
-.avicon-cog {
-  .ourIcon("\e994");
-}
-.avicon-arrow-left2{
-  .ourIcon("\ea40");
-}
-.avicon-checkmark {
-  .ourIcon("\ea10");
-}
-.avicon-zoom-in{
-  .ourIcon("\e987");
-}
-.avicon-zoom-out{
-  .ourIcon("\e988");
-}
   .nightColors() when ( @nightModePercent <100% ){
     background-color: #000;
     color: @nightColor;
@@ -82,7 +46,7 @@
     opacity: @nightModeValue;
   }
 
-
+@import "icon-style.css";
 
   //hide some content
 
