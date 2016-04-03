@@ -29,7 +29,7 @@ var ListItem = React.createClass({
                     {this.props.data.name}
                     </span>
                     <span className="float-right">
-                        <i className="material-icons">keyboard_arrow_right</i>
+                        <i className="icon-keyboard-arrow-right"></i>
                     </span>
             </div>
         );
@@ -78,7 +78,7 @@ module.exports=React.createClass({
             <Page>
                 <ToolBar label="AvNav">
                     <span className="float-right">
-		                <button className="icon-button"><i className="material-icons">{this.state.gpsOk?"gps_fixed":"gps_not_fixed"}</i></button>
+		                <button className="icon-button"><i className={this.state.gpsOk?"icon-gps-fixed":"icon-gps-not-fixed"}></i></button>
 	                </span>
                 </ToolBar>
                 <FullPanel scrollable top buttons>

@@ -25,7 +25,10 @@ var copyList=[
         from: "lib/material-framework-gh-pages/css/material.css",
         to: "css/material.min.css"
     },
-    
+    {
+        from: "lib/material-framework-gh-pages/css/fonts",
+        to: 'css/fonts'
+    },
 
 
 ];
@@ -62,7 +65,8 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                loader: ExtractTextPlugin.extract("style-loader","css-loader!less-loader")
+                exclude: /avnav_viewer\.less/,
+                loader: ExtractTextPlugin.extract("style-loader","css?-url&modules&"+cssLoaderQuery+"!less-loader")
 
             },
             {
@@ -76,13 +80,8 @@ module.exports = {
             },
 
             {
-                test: /fonts[\\\/].*\.png$|fonts[\\\/].*\.svg$|fonts[\\\/].*\.ttf$|fonts[\\\/].*\.woff$|fonts[\\\/].*\.eot$/,
-                loader: 'file-loader',
-                //we are not really able to tell the file loader to copy files correctly
-                //so we let it copy them and afterwards copy them again by the copy plugin
-                query:{
-                    name: "fonts/[name].[ext]"
-                }
+                test: /avnav_viewer\.less$/,
+                loader: ExtractTextPlugin.extract('style-loader','css?-url!less')
             },
             {
                 test: /images[\\\/].*\.png$|images[\\\/].*\.svg$/,

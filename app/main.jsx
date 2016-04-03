@@ -26,7 +26,7 @@ injectTapEventPlugin();
 
 //getcommon.scss without module stuff
 require('./css/commons.scss');
-var md = new Material();
+//var md = new Material();
 
 Nav.start();
 

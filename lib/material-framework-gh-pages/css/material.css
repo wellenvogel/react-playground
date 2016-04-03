@@ -1374,11 +1374,11 @@ code {
 /* Icons */
 @font-face {
 	font-family: 'material-design-icons';
-	src: url('../fonts/material-design-icons.eot?43132195');
-	src: url('../fonts/material-design-icons.eot?43132195#iefix') format('embedded-opentype'),
-	     url('../fonts/material-design-icons.woff?43132195') format('woff'),
-	     url('../fonts/material-design-icons.ttf?43132195') format('truetype'),
-	     url('../fonts/material-design-icons.svg?43132195#material-design-icons') format('svg');
+	src: url('fonts/material-design-icons.eot?43132195');
+	src: url('fonts/material-design-icons.eot?43132195#iefix') format('embedded-opentype'),
+	     url('fonts/material-design-icons.woff?43132195') format('woff'),
+	     url('fonts/material-design-icons.ttf?43132195') format('truetype'),
+	     url('fonts/material-design-icons.svg?43132195#material-design-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -1388,7 +1388,7 @@ code {
 	vertical-align: middle;
 }
 [class^="icon-"]:not(.icon-button)::before, [class*=" icon-"]:not(.icon-button)::before {
-	/*font-family: "material-design-icons"; */
+	font-family: "material-design-icons";
 	font-style: normal;
 	font-weight: normal;
 	speak: none;
