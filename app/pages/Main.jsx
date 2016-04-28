@@ -99,6 +99,11 @@ module.exports=React.createClass({
                 //muiIcon: "settings",
                 icon: "cog",
                 onClick: self._onSettingsClick
+            },
+            {
+                //muiIcon: "settings",
+                icon: "x",
+                onClick: self._onTestClick
             }
         ];
     },
@@ -129,6 +134,10 @@ module.exports=React.createClass({
     _onStatsClick: function(e){
         console.log("clicked "+e.target);
         Location.pushPage("status");
+    },
+    _onTestClick: function(e){
+        console.log("clicked "+e.target);
+        Location.pushPage("test");
     },
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);

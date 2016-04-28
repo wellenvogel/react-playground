@@ -4,6 +4,7 @@ import StatusPage from "./pages/Status.jsx";
 import MapPage from "./pages/Map.jsx";
 import Location from "./util/Location.jsx";
 import extend from "lodash/extend";
+import TestPage from './pages/Test6Page.jsx';
 const Settings=require("./stores/Settings.jsx");
 
 
@@ -27,6 +28,7 @@ module.exports=React.createClass({
         if (pagename == "main") page=<MainPage options={this.props.state.options} style={style}></MainPage>;
         if (pagename == "status") page=<StatusPage options={this.props.state.options} style={style}></StatusPage>;
         if (pagename == "map") page=<MapPage options={this.props.state.options} style={style}></MapPage>;
+        if (pagename == "test") page=<TestPage options={this.props.state.options} style={style}></TestPage>;
 
         return (
                 page
