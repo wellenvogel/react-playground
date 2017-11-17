@@ -141,9 +141,7 @@ module.exports=React.createClass({
     },
     _onSettingsClick: function(e){
         console.log("clicked "+e.target);
-        Alert({title:"Not Implemented",
-            body: <p>This feature is not implemented yet</p>
-        });
+        Alert(<p>This feature is not implemented yet</p>);
     },
     _fillData: function(){
         var url="/viewer/avnav_navi.php?request=listCharts";

@@ -3,7 +3,6 @@
  */
 
 var React=require('react');
-var Dialog=require('react-modal');
 var update = require('react-addons-update');
 var assign=require('object-assign');
 
@@ -17,7 +16,13 @@ const customStyles = {
         transform             : 'translate(-50%, -50%)'
     }
 };
+var AlertListInstance=undefined;
 var Alert=React.createClass({
+    getInitialState: function(){
+        return {
+
+        };
+    },
     ok: function(){
         if (this.props.close){
             this.props.close(this.props.num);
@@ -35,104 +40,102 @@ var Alert=React.createClass({
         }
     },
     render: function(){
+        if (! this.state.content) return null;
         return(
-            <Dialog isOpen={true}  style={customStyles}>
-                <h3>{this.props.title}</h3>
-                    {this.props.body}
-                    {this.props.cancelIcon?<button className="button" onClick={this.cancel}>Cancel</button>:undefined}
-                    <button className="button" onClick={this.ok}>OK</button>
-            </Dialog>
-        );
-    },
-    clickHandler: function(event){
-        return this.props.onClick(event);
-    }
-});
-var AlertListInstance=null;
-var AlertList=React.createClass({
-    getInitialState:function(){
-        return({
-            alerts:[],
-            num: 0
-        });
-    },
-    render: function(){
-        return(
-            <div>
-                {this.state.alerts.map(function(item){
-                    return item;
-                })}
+            <div ref="container" className="dialogContainer">
+                <div ref="box" className="dialogBox">{this.state.content}</div>
             </div>
         );
     },
-    add: function(options){
-        this.setState(function(previousState,props) {
-            var newNum=previousState.num+1;
-            return ({
-                alerts: update(previousState.alerts, {
-                    $push: [
-                        <Alert {...options} num={newNum}
-                               close={this.remove}></Alert>
-                    ]
-                }),
-                num: newNum
-            });
-        });
+    show: function(content,properties){
+        this.setState(Object.assign({},this.props,properties||{},{content:content}));
     },
-    remove: function(num){
-        this.setState(function(previousState,props){
-            return({
-                alerts: update(previousState.alerts,{$splice:[[num-1,1]]}),
-                num: previousState.num-1
-            });
-        });
+    hide: function(){
+        var oldState=this.state;
+        if (oldState.cancelCallback){
+            oldState.cancelCallback();
+        }
+        var newState={};
+        for (var k in oldState){
+            newState[k]=null;
+        }
+        this.setState(newState);
     },
     componentDidMount: function(){
         AlertListInstance=this;
+    },
+    componentWillUnmount: function(){
+        var oldState=this.state;
+        if (oldState.cancelCallback){
+            oldState.cancelCallback();
+        }
+        AlertListInstance=undefined;
+    },
+    componentDidUpdate: function(){
+        if (! this.state.content) return;
+        var props=Object.assign({},this.props,this.state);
+        if (props.positionCallback){
+            props.positionCallback(this.refs.box);
+        }
+        else{
+            Object.assign(this.refs.container.style, {
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0
+            });
+            var rect=this.refs.container.getBoundingClientRect();
+            Object.assign(this.refs.box.style,{
+                maxWidth: rect.width+"px",
+                maxHeight: rect.height+"px",
+                display: 'block',
+                position: 'fixed'
+            });
+            var self=this;
+            window.setTimeout(function(){
+                var boxRect=self.refs.box.getBoundingClientRect();
+                Object.assign(self.refs.box.style,{
+                    left: (rect.width-boxRect.width)/2+"px",
+                    top: (rect.height-boxRect.height)/2+"px",
+                    opacity: 1
+                });
+            },0);
+        }
+    },
+    clickHandler: function(event){
+        return this.props.onClick(event);
+    },
+    statics:{
+        alert:function(text){
+            return new Promise(function (resolve, reject) {
+                var okFunction=function(el){
+                    AlertListInstance.hide();
+                    resolve();
+                };
+                var html=(
+                    <div>
+                        <h3 className="avn_dialogTitle">Alert</h3>
+                        <div className="avn_dialogText">{text}</div>
+                        <button name="ok" onClick={okFunction}>Ok</button>
+                        <div className="avn_clear"></div>
+                    </div>
+                );
+                if (AlertListInstance == null) {
+                    reject(new Error("not initialzed"));
+                    return;
+                }
+                AlertListInstance.show(html,{cancelCallback: function(){
+                    resolve();
+                }});
+            });
+        },
+        hide: function(){
+            if (AlertListInstance) AlertListInstance.hide();
+        }
     }
 });
 
 
-module.exports= {
-    /**
-     * create an alert
-     * returns a promise that fulfills if the user clicks ok
-     * @param options {object}
-     *        okIcon - set the icon name for OK
-     *        showCancel - show a cancel button
-     *        cancelIcon - use this icon for cancel
-     */
-    alert: function(options){
-            if (typeof options === "string"){
-                var noptions={
-                    title: "Alert",
-                    body: <p>{options}</p>
-                };
-                options=noptions;
-            }
-            return new Promise(function (resolve, reject) {
-                if (AlertListInstance == null) {
-                    window.setTimeout(reject(new Error("not initialzed")), 0);
-                    return;
-                }
-                var finalOptions = assign({}, options, {okCallback: resolve, cancelCallback: reject});
-                if (!finalOptions.okIcon) finalOptions.okIcon = "checkmark";
-                if (finalOptions.showCancel && !finalOptions.cancelIcon) finalOptions.cancelIcon = "arrow-left2";
-                AlertListInstance.add(finalOptions);
-            });
-    },
-    /**
-     * render the single list of alerts
-     * @param target {object}
-     *        DOM element to render to
-     */
-    render: function(target){
-        if (AlertListInstance != null){
-            throw new Error("you can only render alertList once");
-        }
-        React.render(
-            <AlertList></AlertList>,
-            target
-        );
-    }
-};
+
+module.exports= Alert;

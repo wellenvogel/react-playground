@@ -61,4 +61,4 @@ setInterval(function(){
     //console.log("timer");
     Dispatcher.dispatch({type: "test",text:new Date().toISOString()});
 },1000);
-AlertHandler.render(document.getElementById('overlay-container'));
+React.render(<AlertHandler/>,document.getElementById('overlay-container'));

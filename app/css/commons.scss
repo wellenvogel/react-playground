@@ -67,3 +67,23 @@ a.list-item, span.list-item, div.list-item, strong.list-item {
 .avRight{
   float: right;
 }
+
+.dialogContainer{
+  background-color: rgba(0, 0, 0, 0.31);
+  z-index: 10;
+}
+.dialogBox{
+  z-index: 12;
+  background-color: white;
+  padding: 3em;
+  border-radius: 0.2em;
+  overflow-x: hidden;
+  overflow-y: auto;
+  button{
+    float: right;
+    margin-top: 1em;
+  }
+  .avn_dialogText{
+    max-width: 40em;
+  }
+}
